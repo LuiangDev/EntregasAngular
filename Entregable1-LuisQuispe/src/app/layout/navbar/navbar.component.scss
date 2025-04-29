@@ -1,0 +1,18 @@
+mat-nav-list {
+  a {
+    font-weight: 600;
+    color: #333;
+    border-radius: 8px;
+    padding: 10px;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #cfd8dc;
+    }
+  }
+
+  .mat-list-item.active {
+    background-color: #1976d2;
+    color: white;
+  }
+}
