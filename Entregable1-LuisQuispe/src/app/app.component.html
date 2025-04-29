@@ -1,5 +1,21 @@
-<!-- Navbar fijo en toda la aplicación -->
-<app-navbar></app-navbar>
+<mat-sidenav-container class="sidenav-container">
 
-<!-- Aquí se renderizan dinámicamente las rutas de la aplicación -->
-<router-outlet></router-outlet>
+  <!-- Menú lateral -->
+  <mat-sidenav #drawer mode="side" opened class="sidenav">
+    <app-navbar></app-navbar>
+  </mat-sidenav>
+
+  <!-- Contenido principal -->
+  <mat-sidenav-content>
+
+    <!-- Toolbar superior -->
+    <app-toolbar></app-toolbar>
+
+    <!-- Vista dinámica -->
+    <div class="main-content">
+      <router-outlet></router-outlet>
+    </div>
+
+  </mat-sidenav-content>
+
+</mat-sidenav-container>

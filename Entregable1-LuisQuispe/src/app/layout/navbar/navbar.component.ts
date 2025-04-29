@@ -1,11 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { Component } from '@angular/core';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+
+
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, MatSidenavModule, MatListModule],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
