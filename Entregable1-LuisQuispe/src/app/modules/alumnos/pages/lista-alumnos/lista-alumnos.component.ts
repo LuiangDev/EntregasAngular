@@ -5,11 +5,13 @@ import { NombreCompletoPipe } from '../../../../shared/pipes/nombre-completo.pip
 import { AlumnosService } from '../../services/alumnos.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { Titulo20Directive } from '../../../../shared/directives/titulo20.directive';
+
 
 @Component({
   selector: 'app-lista-alumnos',
   standalone: true,
-  imports: [CommonModule, MatTableModule, NombreCompletoPipe],
+  imports: [CommonModule, MatTableModule, NombreCompletoPipe,Titulo20Directive],
   templateUrl: './lista-alumnos.component.html',
   styleUrls: ['./lista-alumnos.component.scss'],
 })
