@@ -50,7 +50,7 @@ export class AbmAlumnosComponent {
           title: 'Alumno actualizado',
           text: 'Los datos del alumno fueron modificados correctamente.',
         }).then(() => {
-          this.router.navigate(['/alumnos']); // 🚀 Redirecciona al finalizar
+          this.router.navigate(['/alumnos']);
         });
 
       } else {
@@ -60,7 +60,9 @@ export class AbmAlumnosComponent {
         Swal.fire({
           icon: 'success',
           title: 'Alumno agregado',
-          text: 'El alumno fue registrado correctamente.'
+          text: 'El alumno fue registrado correctamente.',
+        }).then(() => {
+          this.router.navigate(['/alumnos']);
         });
       }
 
@@ -71,5 +73,6 @@ export class AbmAlumnosComponent {
       this.alumnoForm.markAllAsTouched();
     }
   }
+
 
 }
