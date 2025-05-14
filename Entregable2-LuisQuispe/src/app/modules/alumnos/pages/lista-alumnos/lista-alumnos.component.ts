@@ -20,8 +20,8 @@ export class ListaAlumnosComponent {
 
 
   agregarAlumno() {
-    this.alumnosService.limpiarAlumnoSeleccionado(); // Limpia selección previa
-    this.router.navigate(['/alumnos/abm']); //Redirige al ABM para agregar
+    this.alumnosService.limpiarAlumnoSeleccionado(); // Limpieza de la selección previa
+    this.router.navigate(['/alumnos/abm']); //Redirigimos al ABM para agregar
   }
 
 
@@ -30,7 +30,7 @@ export class ListaAlumnosComponent {
       .subscribe((alumnos) => {
         const alumno = alumnos[index];
         this.alumnosService.seleccionarAlumno(alumno, index);
-        this.router.navigate(['/alumnos/abm']); //Redirige después de seleccionar
+        this.router.navigate(['/alumnos/abm']); //Redirigimos después de la selección
       })
       .unsubscribe();
   }
