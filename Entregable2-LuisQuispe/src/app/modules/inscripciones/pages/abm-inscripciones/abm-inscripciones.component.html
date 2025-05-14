@@ -1,1 +1,30 @@
-<p>abm-inscripciones works!</p>
+<div class="container mt-4">
+  <h2>Formulario de Inscripción</h2>
+
+  <form [formGroup]="inscripcionForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline" class="w-100 mb-3">
+      <mat-label>Alumno</mat-label>
+      <mat-select formControlName="alumno">
+        <mat-option *ngFor="let alumno of alumnos" [value]="alumno">
+          {{ alumno }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100 mb-3">
+      <mat-label>Curso</mat-label>
+      <mat-select formControlName="curso">
+        <mat-option *ngFor="let curso of cursos" [value]="curso">
+          {{ curso }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100 mb-3">
+      <mat-label>Fecha</mat-label>
+      <input matInput type="date" formControlName="fecha" />
+    </mat-form-field>
+
+    <button type="submit" class="btn btn-primary">Guardar Inscripción</button>
+  </form>
+</div>
