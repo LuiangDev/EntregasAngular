@@ -12,7 +12,7 @@ export class InscripcionService {
       fecha: '2024-05-01'
     },
     {
-      alumno: 'Cinthia Garcia',
+      alumno: 'Cinthia García',
       curso: 'TypeScript Avanzado',
       fecha: '2024-05-10'
     }

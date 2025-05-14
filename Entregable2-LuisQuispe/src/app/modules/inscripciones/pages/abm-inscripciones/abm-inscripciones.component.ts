@@ -7,6 +7,8 @@ import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { InscripcionService } from '../../services/inscripcion.service';
+import { CursoService } from '../../../cursos/services/curso.service';
+import { AlumnosService } from '../../../alumnos/services/alumnos.service';
 
 @Component({
   selector: 'app-abm-inscripciones',
@@ -26,13 +28,14 @@ export class AbmInscripcionesComponent {
   inscripcionEditando: any = null;
   indiceEditando: number | null = null;
 
-  // Mock de alumnos y cursos
-  alumnos = ['Luis Quispe', 'Cinthia Garcia', 'Juan Ramírez'];
-  cursos = ['Angular Básico', 'TypeScript Avanzado', 'NestJS Pro'];
+  alumnos: any[] = [];
+  cursos: any[] = [];
 
   constructor(
     private fb: FormBuilder,
     private inscripcionService: InscripcionService,
+    private cursoService: CursoService,
+    private alumnosService: AlumnosService,
     private router: Router
   ) {
     this.inscripcionForm = this.fb.group({
@@ -41,6 +44,16 @@ export class AbmInscripcionesComponent {
       fecha: ['', Validators.required]
     });
 
+    // Datos dinámicos desde los servicios
+    this.alumnosService.alumnos$.subscribe((data) => {
+      this.alumnos = data;
+    });
+
+    this.cursoService.cursos$.subscribe((data) => {
+      this.cursos = data;
+    });
+
+    // Carga si estás editando
     this.inscripcionService.inscripcionSeleccionada$.subscribe((data) => {
       if (data) {
         this.inscripcionEditando = data.inscripcion;
@@ -70,7 +83,7 @@ export class AbmInscripcionesComponent {
     }
   }
 
-    cancelar() {
-  this.router.navigate(['/inscripciones']);
-}
+  cancelar() {
+    this.router.navigate(['/inscripciones']);
+  }
 }

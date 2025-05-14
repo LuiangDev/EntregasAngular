@@ -5,8 +5,11 @@
     <mat-form-field appearance="outline" class="w-100 mb-3">
       <mat-label>Alumno</mat-label>
       <mat-select formControlName="alumno">
-        <mat-option *ngFor="let alumno of alumnos" [value]="alumno">
-          {{ alumno }}
+        <mat-option
+          *ngFor="let alumno of alumnos"
+          [value]="alumno.nombre + ' ' + alumno.apellido"
+        >
+          {{ alumno.nombre }} {{ alumno.apellido }}
         </mat-option>
       </mat-select>
     </mat-form-field>
@@ -14,8 +17,8 @@
     <mat-form-field appearance="outline" class="w-100 mb-3">
       <mat-label>Curso</mat-label>
       <mat-select formControlName="curso">
-        <mat-option *ngFor="let curso of cursos" [value]="curso">
-          {{ curso }}
+        <mat-option *ngFor="let curso of cursos" [value]="curso.nombre">
+          {{ curso.nombre }}
         </mat-option>
       </mat-select>
     </mat-form-field>
@@ -25,7 +28,7 @@
       <input matInput type="date" formControlName="fecha" />
     </mat-form-field>
 
-        <div class="d-flex gap-2 mt-3">
+    <div class="d-flex gap-2 mt-3">
       <button type="submit" class="btn btn-primary">Guardar Inscripción</button>
       <button type="button" class="btn btn-secondary" (click)="cancelar()">
         Cancelar

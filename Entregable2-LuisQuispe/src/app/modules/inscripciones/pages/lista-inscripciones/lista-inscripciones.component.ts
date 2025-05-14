@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
-import { InscripcionService } from '../../services/inscripcion.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { InscripcionService } from '../../services/inscripcion.service';
 
 @Component({
   selector: 'app-lista-inscripciones',
@@ -26,24 +26,26 @@ export class ListaInscripcionesComponent {
   }
 
   editarInscripcion(index: number) {
-    this.inscripcionService.inscripciones$.subscribe(inscripciones => {
-      const inscripcion = inscripciones[index];
-      this.inscripcionService.seleccionarInscripcion(inscripcion, index);
-      this.router.navigate(['/inscripciones/abm']);
-    }).unsubscribe();
+    this.inscripcionService.inscripciones$
+      .subscribe((inscripciones) => {
+        const inscripcion = inscripciones[index];
+        this.inscripcionService.seleccionarInscripcion(inscripcion, index);
+        this.router.navigate(['/inscripciones/abm']);
+      })
+      .unsubscribe();
   }
 
   eliminarInscripcion(index: number) {
     Swal.fire({
       title: '¿Estás seguro?',
-      text: 'Esta acción eliminará la inscripción permanentemente.',
+      text: 'Esta acción eliminará la inscripción.',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#d33',
       cancelButtonColor: '#3085d6',
       confirmButtonText: 'Sí, eliminar',
       cancelButtonText: 'Cancelar'
-    }).then(result => {
+    }).then((result) => {
       if (result.isConfirmed) {
         this.inscripcionService.eliminarInscripcion(index);
         Swal.fire({

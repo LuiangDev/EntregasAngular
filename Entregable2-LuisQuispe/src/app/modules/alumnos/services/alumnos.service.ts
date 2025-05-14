@@ -6,9 +6,9 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class AlumnosService {
   private alumnosSource = new BehaviorSubject<any[]>([
-    { nombre: 'Luis', apellido: 'Ángel', email: 'luis.angel@email.com' },
-    { nombre: 'María', apellido: 'Pérez', email: 'maria.perez@email.com' },
-    { nombre: 'Juan', apellido: 'Ramírez', email: 'juan.ramirez@email.com' },
+    { nombre: 'Luis', apellido: 'Quispe', email: 'luis.quispe@email.com' },
+    { nombre: 'Cinthia', apellido: 'García', email: 'cinthia.garcia@email.com' },
+    { nombre: 'Liliana', apellido: 'Valqui', email: 'liliana.valqui@email.com' },
   ]);
 
   alumnos$ = this.alumnosSource.asObservable();
