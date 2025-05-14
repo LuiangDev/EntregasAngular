@@ -17,6 +17,11 @@
       <input matInput type="number" formControlName="cupos" />
     </mat-form-field>
 
-    <button type="submit" class="btn btn-primary">Guardar Curso</button>
+    <div class="d-flex gap-2 mt-3">
+      <button type="submit" class="btn btn-primary">Guardar Curso</button>
+      <button type="button" class="btn btn-secondary" (click)="cancelar()">
+        Cancelar
+      </button>
+    </div>
   </form>
 </div>

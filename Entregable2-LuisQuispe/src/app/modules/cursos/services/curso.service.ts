@@ -6,8 +6,10 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class CursoService {
   private cursosSource = new BehaviorSubject<any[]>([
-    { nombre: 'Angular Básico', profesor: 'Juan Pérez', cupos: 20 },
-    { nombre: 'TypeScript Avanzado', profesor: 'María Gómez', cupos: 15 }
+    { nombre: 'Angular Básico', profesor: 'Adolfo Correa', cupos: 20 },
+    { nombre: 'TypeScript Avanzado', profesor: 'Alindor Ocas', cupos: 15 },
+    { nombre: 'NestJS Pro', profesor: 'Nayeli Ramirez', cupos: 10 }
+
   ]);
 
   cursos$ = this.cursosSource.asObservable();
