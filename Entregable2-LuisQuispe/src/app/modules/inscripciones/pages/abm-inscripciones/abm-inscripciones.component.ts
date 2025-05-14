@@ -1,6 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
@@ -18,10 +23,10 @@ import { AlumnosService } from '../../../alumnos/services/alumnos.service';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatInputModule
+    MatInputModule,
   ],
   templateUrl: './abm-inscripciones.component.html',
-  styleUrls: ['./abm-inscripciones.component.scss']
+  styleUrls: ['./abm-inscripciones.component.scss'],
 })
 export class AbmInscripcionesComponent {
   inscripcionForm: FormGroup;
@@ -30,6 +35,7 @@ export class AbmInscripcionesComponent {
 
   alumnos: any[] = [];
   cursos: any[] = [];
+  inscripciones: any[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -41,7 +47,7 @@ export class AbmInscripcionesComponent {
     this.inscripcionForm = this.fb.group({
       alumno: ['', Validators.required],
       curso: ['', Validators.required],
-      fecha: ['', Validators.required]
+      fecha: ['', Validators.required],
     });
 
     // Datos dinámicos desde los servicios
@@ -49,11 +55,20 @@ export class AbmInscripcionesComponent {
       this.alumnos = data;
     });
 
-    this.cursoService.cursos$.subscribe((data) => {
-      this.cursos = data;
+    this.inscripcionService.inscripciones$.subscribe((data) => {
+      this.inscripciones = data;
     });
 
-    // Carga si estás editando
+        this.cursoService.cursos$.subscribe((cursosDisponibles) => {
+      this.cursos = cursosDisponibles.filter((curso) => {
+        const inscripcionesCurso = this.inscripciones.filter(
+          (ins) => ins.curso === curso.nombre
+        );
+        return inscripcionesCurso.length < curso.cupos;
+      });
+    });
+
+    // Carga si se está editando
     this.inscripcionService.inscripcionSeleccionada$.subscribe((data) => {
       if (data) {
         this.inscripcionEditando = data.inscripcion;
@@ -68,11 +83,22 @@ export class AbmInscripcionesComponent {
       const inscripcion = this.inscripcionForm.value;
 
       if (this.indiceEditando !== null) {
-        this.inscripcionService.actualizarInscripcion(this.indiceEditando, inscripcion);
-        Swal.fire('Actualizado', 'La inscripción fue modificada correctamente.', 'success');
+        this.inscripcionService.actualizarInscripcion(
+          this.indiceEditando,
+          inscripcion
+        );
+        Swal.fire(
+          'Actualizado',
+          'La inscripción fue modificada correctamente.',
+          'success'
+        );
       } else {
         this.inscripcionService.agregarInscripcion(inscripcion);
-        Swal.fire('Agregado', 'La inscripción fue registrada correctamente.', 'success');
+        Swal.fire(
+          'Agregado',
+          'La inscripción fue registrada correctamente.',
+          'success'
+        );
       }
 
       this.inscripcionForm.reset();

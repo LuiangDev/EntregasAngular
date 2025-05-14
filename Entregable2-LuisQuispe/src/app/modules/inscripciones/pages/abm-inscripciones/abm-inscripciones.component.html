@@ -23,6 +23,11 @@
       </mat-select>
     </mat-form-field>
 
+    <!-- 🔻 Mensaje si ya no hay cursos disponibles -->
+    <small *ngIf="cursos.length === 0" class="text-danger">
+      No hay cursos disponibles con cupos.
+    </small>
+
     <mat-form-field appearance="outline" class="w-100 mb-3">
       <mat-label>Fecha</mat-label>
       <input matInput type="date" formControlName="fecha" />
