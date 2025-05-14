@@ -1,20 +1,27 @@
 # Gestión de Asistentes
 
-Aplicación desarrollada con **Angular CLI**, **Angular Material** y **Bootstrap**, que permite gestionar alumnos inscritos en cursos. Proyecto correspondiente a la Primera Entrega del Proyecto Final.
+Aplicación desarrollada con **Angular CLI**, **Angular Material**, **Bootstrap** y **SweetAlert2**, que permite gestionar alumnos, cursos e inscripciones en un entorno modular, interactivo y profesional.  
+Proyecto correspondiente a la **Segunda Entrega del Proyecto Final**.
 
 ---
 
 ## 🎯 Funcionalidades principales
 
-- **Navbar** (menú lateral) y **Toolbar** (barra superior) para navegación y estructura.
-- **Lista de Alumnos:** Visualización de alumnos en una tabla dinámica.
-- **ABM de Alumnos:** Alta, Baja y Modificación de alumnos usando formularios reactivos.
-- **Eliminación de alumnos:** Confirmación de eliminación con alertas de éxito.
-- **Edición de alumnos:** Actualización inmediata de datos, con validaciones en el formulario.
-- **Agregado de nuevos alumnos:** Formulario validado y navegación automática tras guardado.
-- **Pipe personalizado:** Para mostrar el nombre completo de los alumnos (Nombre + Apellido).
-- **Directiva personalizada:** Aplica automáticamente un estilo de fuente tamaño 20px a los títulos.
-- **Estilo Moderno:** Integración con Angular Material y Bootstrap para mejorar el diseño visual.
+- **Navbar** (menú lateral) y **Toolbar** (barra superior) para navegación estructurada.
+- **Gestión modular con Lazy Loading** para Alumnos, Cursos e Inscripciones.
+- **ABM completo** para:
+  - Alumnos: nombre, apellido y email.
+  - Cursos: nombre, profesor, cupos.
+  - Inscripciones: selección dinámica de alumno, curso y fecha.
+- **Sincronización entre módulos**: 
+  - Cursos y alumnos se cargan dinámicamente en el formulario de inscripción.
+- **Validación de cupos**: no permite inscribir alumnos si el curso ya no tiene vacantes.
+- **Eliminación con confirmación visual** usando SweetAlert2.
+- **Edición inmediata de registros** con formularios reactivos prellenados.
+- **Pipe personalizado**: muestra el nombre completo del alumno (Nombre + Apellido).
+- **Directiva personalizada**: aplica un estilo de fuente de 20px a los encabezados.
+- **Botones de Cancelar**: permiten volver al listado sin modificar datos.
+- **Estilo moderno y responsivo**: combinación de Angular Material y Bootstrap.
 
 ---
 
@@ -27,7 +34,6 @@ Aplicación desarrollada con **Angular CLI**, **Angular Material** y **Bootstrap
 ![RxJS](https://img.shields.io/badge/RxJS-B7178C?style=for-the-badge&logo=reactivex&logoColor=white)
 ![SweetAlert2](https://img.shields.io/badge/SweetAlert2-FF5A5F?style=for-the-badge&logo=sweetalert2&logoColor=white)
 
-
 ---
 
 ## 🚀 Instalación y ejecución local
@@ -37,7 +43,7 @@ Aplicación desarrollada con **Angular CLI**, **Angular Material** y **Bootstrap
 git clone https://github.com/LuiangDev/EntregasAngular.git
 
 # Accede al proyecto
-cd Entregable1-LuisQuispe
+cd Entregable2-LuisQuispe
 
 # Instala las dependencias
 npm install
