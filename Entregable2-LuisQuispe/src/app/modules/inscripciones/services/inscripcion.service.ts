@@ -9,12 +9,12 @@ export class InscripcionService {
     {
       alumno: 'Luis Quispe',
       curso: 'Angular Básico',
-      fecha: '2024-05-01'
+      fecha: '2025-05-01'
     },
     {
       alumno: 'Cinthia García',
       curso: 'TypeScript Avanzado',
-      fecha: '2024-05-10'
+      fecha: '2025-05-10'
     }
   ]);
 
