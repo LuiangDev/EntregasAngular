@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "1PFQuispe": {
+    "2PFQuispe": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {

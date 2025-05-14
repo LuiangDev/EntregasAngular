@@ -3,7 +3,23 @@ import { ListaAlumnosComponent } from './modules/alumnos/pages/lista-alumnos/lis
 import { AbmAlumnosComponent } from './modules/alumnos/pages/abm-alumnos/abm-alumnos.component';
 
 export const routes: Routes = [
-  { path: 'alumnos', component: ListaAlumnosComponent },
-  { path: 'alumnos/abm', component: AbmAlumnosComponent },
-  { path: '**', redirectTo: 'alumnos' }
+  {
+    path: 'alumnos',
+    loadChildren: () =>
+      import('./modules/alumnos/alumnos.module').then((m) => m.AlumnosModule),
+  },
+  {
+    path: 'cursos',
+    loadChildren: () =>
+      import('./modules/cursos/cursos.module').then((m) => m.CursosModule),
+  },
+  {
+    path: 'inscripciones',
+    loadChildren: () =>
+      import('./modules/inscripciones/inscripciones.module').then(
+        (m) => m.InscripcionesModule
+      ),
+  },
+  { path: '', redirectTo: 'alumnos', pathMatch: 'full' },
+  { path: '**', redirectTo: 'alumnos' },
 ];
