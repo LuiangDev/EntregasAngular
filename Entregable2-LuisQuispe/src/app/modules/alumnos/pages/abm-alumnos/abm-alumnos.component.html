@@ -1,0 +1,32 @@
+<div class="container mt-4">
+  <h2>ABM de Alumnos</h2>
+
+  <form [formGroup]="alumnoForm" (ngSubmit)="onSubmit()">
+
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Nombre</label>
+      <input id="nombre" class="form-control" formControlName="nombre" />
+      <div *ngIf="alumnoForm.get('nombre')?.touched && alumnoForm.get('nombre')?.invalid" class="text-danger">
+        El nombre es obligatorio.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="apellido" class="form-label">Apellido</label>
+      <input id="apellido" class="form-control" formControlName="apellido" />
+      <div *ngIf="alumnoForm.get('apellido')?.touched && alumnoForm.get('apellido')?.invalid" class="text-danger">
+        El apellido es obligatorio.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input id="email" type="email" class="form-control" formControlName="email" />
+      <div *ngIf="alumnoForm.get('email')?.touched && alumnoForm.get('email')?.invalid" class="text-danger">
+        El email es obligatorio y debe ser válido.
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar Alumno</button>
+  </form>
+</div>
