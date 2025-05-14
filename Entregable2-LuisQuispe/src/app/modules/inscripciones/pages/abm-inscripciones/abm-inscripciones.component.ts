@@ -69,4 +69,8 @@ export class AbmInscripcionesComponent {
       this.inscripcionForm.markAllAsTouched();
     }
   }
+
+    cancelar() {
+  this.router.navigate(['/inscripciones']);
+}
 }

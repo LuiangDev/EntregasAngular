@@ -74,5 +74,11 @@ export class AbmAlumnosComponent {
     }
   }
 
+  cancelar() {
+  this.alumnoForm.reset();
+  this.router.navigate(['/alumnos']);
+}
+
+
 
 }
