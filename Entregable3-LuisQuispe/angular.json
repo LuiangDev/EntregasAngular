@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/2-pfquispe",
+            "outputPath": "dist/3-pfquispe",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
