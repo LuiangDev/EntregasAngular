@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { NombreCompletoPipe } from '../../../../shared/pipes/nombre-completo.pipe';
@@ -7,39 +7,46 @@ import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Titulo20Directive } from '../../../../shared/directives/titulo20.directive';
 
-
 @Component({
   selector: 'app-lista-alumnos',
   standalone: true,
-  imports: [CommonModule, MatTableModule, NombreCompletoPipe,Titulo20Directive],
+  imports: [CommonModule, MatTableModule, NombreCompletoPipe, Titulo20Directive],
   templateUrl: './lista-alumnos.component.html',
   styleUrls: ['./lista-alumnos.component.scss'],
 })
-export class ListaAlumnosComponent {
+export class ListaAlumnosComponent implements OnInit {
+  alumnos: any[] = [];
   displayedColumns: string[] = ['nombreCompleto', 'email', 'acciones'];
 
+  constructor(
+    private readonly alumnosService: AlumnosService,
+    private readonly router: Router
+  ) {}
 
-  agregarAlumno() {
-    this.alumnosService.limpiarAlumnoSeleccionado(); // Limpieza de la selección previa
-    this.router.navigate(['/alumnos/abm']); //Redirigimos al ABM para agregar
+  ngOnInit(): void {
+    this.cargarAlumnos();
   }
 
-
-  editarAlumno(index: number) {
-    this.alumnosService.alumnos$
-      .subscribe((alumnos) => {
-        const alumno = alumnos[index];
-        this.alumnosService.seleccionarAlumno(alumno, index);
-        this.router.navigate(['/alumnos/abm']); //Redirigimos después de la selección
-      })
-      .unsubscribe();
+  cargarAlumnos(): void {
+    this.alumnosService.obtenerAlumnos().subscribe((data) => {
+      this.alumnos = data;
+    });
   }
 
+  agregarAlumno(): void {
+    this.alumnosService.limpiarAlumnoSeleccionado();
+    this.router.navigate(['/alumnos/abm']);
+  }
 
-  eliminarAlumno(index: number) {
+  editarAlumno(alumno: any): void {
+    this.alumnosService.seleccionarAlumno(alumno, alumno.id);
+    this.router.navigate(['/alumnos/abm']);
+  }
+
+  eliminarAlumno(alumno: any): void {
     Swal.fire({
       title: '¿Estás seguro?',
-      text: 'Esta acción eliminará el alumno de forma permanente.',
+      text: 'Esta acción eliminará al alumno de forma permanente.',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#d33',
@@ -48,23 +55,17 @@ export class ListaAlumnosComponent {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.alumnosService.eliminarAlumno(index);
-
-        Swal.fire({
-          icon: 'success',
-          title: 'Alumno eliminado',
-          text: 'El alumno fue eliminado correctamente.',
-          timer: 1500,
-          showConfirmButton: false
+        this.alumnosService.eliminarAlumno(alumno.id).subscribe(() => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Alumno eliminado',
+            text: 'El alumno fue eliminado correctamente.',
+            timer: 1500,
+            showConfirmButton: false
+          });
+          this.cargarAlumnos(); // Recargamos el listado de alumnos
         });
       }
     });
   }
-
-
-  constructor(
-    public alumnosService: AlumnosService,
-    private router: Router
-  ) {}
-
 }

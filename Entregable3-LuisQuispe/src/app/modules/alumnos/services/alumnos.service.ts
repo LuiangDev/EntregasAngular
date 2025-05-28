@@ -1,44 +1,49 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AlumnosService {
-  private alumnosSource = new BehaviorSubject<any[]>([
-    { nombre: 'Luis', apellido: 'Quispe', email: 'luis.quispe@email.com' },
-    { nombre: 'Cinthia', apellido: 'García', email: 'cinthia.garcia@email.com' },
-    { nombre: 'Liliana', apellido: 'Valqui', email: 'liliana.valqui@email.com' },
-  ]);
+  private readonly apiUrl = 'http://localhost:3000/alumnos';
 
-  alumnos$ = this.alumnosSource.asObservable();
-
-  agregarAlumno(alumno: any) {
-    const actual = this.alumnosSource.value;
-    this.alumnosSource.next([...actual, alumno]);
-  }
-
-  actualizarAlumno(index: number, alumnoActualizado: any) {
-    const actual = [...this.alumnosSource.value];
-    actual[index] = alumnoActualizado;
-    this.alumnosSource.next(actual);
-  }
-
-
-  eliminarAlumno(index: number) {
-    const actual = this.alumnosSource.value.filter((_, i) => i !== index);
-    this.alumnosSource.next(actual);
-  }
-
-  private alumnoSeleccionadoSource = new BehaviorSubject<{ alumno: any, index: number } | null>(null);
+  //Alumno seleccionado para edición
+  private readonly alumnoSeleccionadoSource = new BehaviorSubject<{
+    alumno: any;
+    id: number;
+  } | null>(null);
   alumnoSeleccionado$ = this.alumnoSeleccionadoSource.asObservable();
 
-  seleccionarAlumno(alumno: any, index: number) {
-    this.alumnoSeleccionadoSource.next({ alumno, index });
+  constructor(private readonly http: HttpClient) {}
+
+  //Listado de alumnos
+  obtenerAlumnos(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
   }
 
+  //Agregar un nuevo alumno
+  agregarAlumno(alumno: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl, alumno);
+  }
+
+  //Actualizar un alumno existente
+  actualizarAlumno(id: number, alumnoActualizado: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, alumnoActualizado);
+  }
+
+  //Eliminar un alumno
+  eliminarAlumno(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`);
+  }
+
+  //Seleccionar un alumno para edición
+  seleccionarAlumno(alumno: any, id: number) {
+    this.alumnoSeleccionadoSource.next({ alumno, id });
+  }
+
+  //Limpiar el alumno seleccionado
   limpiarAlumnoSeleccionado() {
     this.alumnoSeleccionadoSource.next(null);
   }
-
 }
