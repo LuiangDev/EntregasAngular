@@ -1,12 +1,16 @@
 import { Routes } from '@angular/router';
-import { ListaAlumnosComponent } from './modules/alumnos/pages/lista-alumnos/lista-alumnos.component';
-import { AbmAlumnosComponent } from './modules/alumnos/pages/abm-alumnos/abm-alumnos.component';
+import { LoginComponent } from './auth/login/login.component';
+import { AuthGuard } from './auth/auth.guard';
+import { RoleGuard } from './auth/role.guard';
 
 export const routes: Routes = [
+
+    { path: 'login', component: LoginComponent },
   {
     path: 'alumnos',
-    loadChildren: () =>
-      import('./modules/alumnos/alumnos.module').then((m) => m.AlumnosModule),
+    canActivate: [AuthGuard, RoleGuard],
+    data: { expectedRole: 'admin' },
+    loadChildren: () => import('./modules/alumnos/alumnos.module').then(m => m.AlumnosModule)
   },
   {
     path: 'cursos',
@@ -22,4 +26,5 @@ export const routes: Routes = [
   },
   { path: '', redirectTo: 'alumnos', pathMatch: 'full' },
   { path: '**', redirectTo: 'alumnos' },
+  { path: '**', redirectTo: 'login' },
 ];
