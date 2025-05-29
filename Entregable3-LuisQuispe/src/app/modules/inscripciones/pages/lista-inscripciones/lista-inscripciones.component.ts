@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
@@ -12,30 +12,36 @@ import { InscripcionService } from '../../services/inscripcion.service';
   templateUrl: './lista-inscripciones.component.html',
   styleUrls: ['./lista-inscripciones.component.scss']
 })
-export class ListaInscripcionesComponent {
+export class ListaInscripcionesComponent implements OnInit {
+  inscripciones: any[] = [];
   displayedColumns: string[] = ['alumno', 'curso', 'fecha', 'acciones'];
 
   constructor(
-    public inscripcionService: InscripcionService,
-    private router: Router
+    private readonly inscripcionService: InscripcionService,
+    private readonly router: Router
   ) {}
 
-  agregarInscripcion() {
+  ngOnInit(): void {
+    this.cargarInscripciones();
+  }
+
+  cargarInscripciones(): void {
+    this.inscripcionService.obtenerInscripciones().subscribe((data) => {
+      this.inscripciones = data;
+    });
+  }
+
+  agregarInscripcion(): void {
     this.inscripcionService.limpiarInscripcionSeleccionada();
     this.router.navigate(['/inscripciones/abm']);
   }
 
-  editarInscripcion(index: number) {
-    this.inscripcionService.inscripciones$
-      .subscribe((inscripciones) => {
-        const inscripcion = inscripciones[index];
-        this.inscripcionService.seleccionarInscripcion(inscripcion, index);
-        this.router.navigate(['/inscripciones/abm']);
-      })
-      .unsubscribe();
+  editarInscripcion(inscripcion: any): void {
+    this.inscripcionService.seleccionarInscripcion(inscripcion, inscripcion.id);
+    this.router.navigate(['/inscripciones/abm']);
   }
 
-  eliminarInscripcion(index: number) {
+  eliminarInscripcion(inscripcion: any): void {
     Swal.fire({
       title: '¿Estás seguro?',
       text: 'Esta acción eliminará la inscripción.',
@@ -47,13 +53,15 @@ export class ListaInscripcionesComponent {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.inscripcionService.eliminarInscripcion(index);
-        Swal.fire({
-          icon: 'success',
-          title: 'Inscripción eliminada',
-          text: 'La inscripción fue eliminada correctamente.',
-          timer: 1500,
-          showConfirmButton: false
+        this.inscripcionService.eliminarInscripcion(inscripcion.id).subscribe(() => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Inscripción eliminada',
+            text: 'La inscripción fue eliminada correctamente.',
+            timer: 1500,
+            showConfirmButton: false
+          });
+          this.cargarInscripciones(); // Recargamos la lista
         });
       }
     });
