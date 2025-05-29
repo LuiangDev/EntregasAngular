@@ -4,8 +4,10 @@ import { AuthGuard } from './auth/auth.guard';
 import { RoleGuard } from './auth/role.guard';
 
 export const routes: Routes = [
-
-    { path: 'login', component: LoginComponent },
+  {
+    path: 'login',
+    component: LoginComponent
+  },
   {
     path: 'alumnos',
     canActivate: [AuthGuard, RoleGuard],
@@ -14,17 +16,22 @@ export const routes: Routes = [
   },
   {
     path: 'cursos',
-    loadChildren: () =>
-      import('./modules/cursos/cursos.module').then((m) => m.CursosModule),
+    canActivate: [AuthGuard, RoleGuard],
+    data: { expectedRole: 'admin' },
+    loadChildren: () => import('./modules/cursos/cursos.module').then(m => m.CursosModule)
   },
   {
     path: 'inscripciones',
-    loadChildren: () =>
-      import('./modules/inscripciones/inscripciones.module').then(
-        (m) => m.InscripcionesModule
-      ),
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./modules/inscripciones/inscripciones.module').then(m => m.InscripcionesModule)
   },
-  { path: '', redirectTo: 'alumnos', pathMatch: 'full' },
-  { path: '**', redirectTo: 'alumnos' },
-  { path: '**', redirectTo: 'login' },
+  {
+    path: '',
+    redirectTo: 'alumnos',
+    pathMatch: 'full'
+  },
+  {
+    path: '**',
+    redirectTo: 'alumnos'
+  }
 ];

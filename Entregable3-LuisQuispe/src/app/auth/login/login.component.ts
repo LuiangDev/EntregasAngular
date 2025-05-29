@@ -27,8 +27,10 @@ export class LoginComponent {
 
   onSubmit(): void {
     const { username, password } = this.loginForm.value;
-    if (this.authService.login(username, password)) {
-      this.router.navigate(['/']); // Redireccion a home
+    const role = username === 'admin' ? 'admin' : 'user'; // Determinación del rol
+
+    if (this.authService.login(username, password, role)) {
+      this.router.navigate(['/']);
     } else {
       alert('Usuario o contraseña incorrectos.');
     }

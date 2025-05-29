@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private readonly TOKEN_KEY = 'auth_token';
   private readonly ROLE_KEY = 'user_role';
 
-  login(username: string, password: string): boolean {
-    // Prueba de autenticación simple
-    if ((username === 'admin' || username === 'user') && password === '12345') {
+  login(username: string, password: string, role: string): boolean {
+    if (password === '12345') {
       localStorage.setItem(this.TOKEN_KEY, 'fake-jwt-token');
-      localStorage.setItem(this.ROLE_KEY, username === 'admin' ? 'admin' : 'user');
+      localStorage.setItem(this.ROLE_KEY, role);
       return true;
     }
     return false;
