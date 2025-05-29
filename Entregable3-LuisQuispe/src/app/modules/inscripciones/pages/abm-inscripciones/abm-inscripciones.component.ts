@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -28,88 +28,105 @@ import { AlumnosService } from '../../../alumnos/services/alumnos.service';
   templateUrl: './abm-inscripciones.component.html',
   styleUrls: ['./abm-inscripciones.component.scss'],
 })
-export class AbmInscripcionesComponent {
+export class AbmInscripcionesComponent implements OnInit {
   inscripcionForm: FormGroup;
   inscripcionEditando: any = null;
-  indiceEditando: number | null = null;
 
   alumnos: any[] = [];
   cursos: any[] = [];
   inscripciones: any[] = [];
 
   constructor(
-    private fb: FormBuilder,
-    private inscripcionService: InscripcionService,
-    private cursoService: CursoService,
-    private alumnosService: AlumnosService,
-    private router: Router
+    private readonly fb: FormBuilder,
+    private readonly inscripcionService: InscripcionService,
+    private readonly cursoService: CursoService,
+    private readonly alumnosService: AlumnosService,
+    private readonly router: Router
   ) {
     this.inscripcionForm = this.fb.group({
       alumno: ['', Validators.required],
       curso: ['', Validators.required],
       fecha: ['', Validators.required],
     });
+  }
 
-    // Datos dinámicos desde los servicios
-    this.alumnosService.alumnos$.subscribe((data) => {
-      this.alumnos = data;
-    });
+  ngOnInit(): void {
+    this.cargarDatos();
 
-    this.inscripcionService.inscripciones$.subscribe((data) => {
-      this.inscripciones = data;
-    });
-
-        this.cursoService.cursos$.subscribe((cursosDisponibles) => {
-      this.cursos = cursosDisponibles.filter((curso) => {
-        const inscripcionesCurso = this.inscripciones.filter(
-          (ins) => ins.curso === curso.nombre
-        );
-        return inscripcionesCurso.length < curso.cupos;
-      });
-    });
-
-    // Carga si se está editando
     this.inscripcionService.inscripcionSeleccionada$.subscribe((data) => {
       if (data) {
         this.inscripcionEditando = data.inscripcion;
-        this.indiceEditando = data.index;
         this.inscripcionForm.patchValue(data.inscripcion);
       }
     });
   }
 
-  onSubmit() {
+  cargarDatos(): void {
+    this.cargarAlumnos();
+    this.cargarInscripcionesYFiltrarCursos();
+  }
+
+  private cargarAlumnos(): void {
+    this.alumnosService.obtenerAlumnos().subscribe((data) => {
+      this.alumnos = data;
+    });
+  }
+
+  private cargarInscripcionesYFiltrarCursos(): void {
+    this.inscripcionService.obtenerInscripciones().subscribe((data) => {
+      this.inscripciones = data;
+      this.cargarCursosConCupos();
+    });
+  }
+
+  private cargarCursosConCupos(): void {
+    this.cursoService.obtenerCursos().subscribe((cursosDisponibles) => {
+      this.cursos = cursosDisponibles.filter((curso) =>
+        this.tieneCuposDisponibles(curso)
+      );
+    });
+  }
+
+  private tieneCuposDisponibles(curso: any): boolean {
+    const inscripcionesCurso = this.inscripciones.filter(
+      (ins) => ins.curso === curso.nombre
+    );
+    return inscripcionesCurso.length < curso.cupos;
+  }
+
+  onSubmit(): void {
     if (this.inscripcionForm.valid) {
       const inscripcion = this.inscripcionForm.value;
 
-      if (this.indiceEditando !== null) {
-        this.inscripcionService.actualizarInscripcion(
-          this.indiceEditando,
-          inscripcion
-        );
-        Swal.fire(
-          'Actualizado',
-          'La inscripción fue modificada correctamente.',
-          'success'
-        );
+      if (this.inscripcionEditando) {
+        this.inscripcionService
+          .actualizarInscripcion(this.inscripcionEditando.id, inscripcion)
+          .subscribe(() => {
+            Swal.fire(
+              'Actualizado',
+              'La inscripción fue modificada correctamente.',
+              'success'
+            );
+            this.router.navigate(['/inscripciones']);
+          });
       } else {
-        this.inscripcionService.agregarInscripcion(inscripcion);
-        Swal.fire(
-          'Agregado',
-          'La inscripción fue registrada correctamente.',
-          'success'
-        );
+        this.inscripcionService
+          .agregarInscripcion(inscripcion)
+          .subscribe(() => {
+            Swal.fire(
+              'Agregado',
+              'La inscripción fue registrada correctamente.',
+              'success'
+            );
+            this.router.navigate(['/inscripciones']);
+          });
       }
-
-      this.inscripcionForm.reset();
-      this.inscripcionService.limpiarInscripcionSeleccionada();
-      this.router.navigate(['/inscripciones']);
     } else {
       this.inscripcionForm.markAllAsTouched();
     }
   }
 
-  cancelar() {
+  cancelar(): void {
     this.router.navigate(['/inscripciones']);
   }
 }
