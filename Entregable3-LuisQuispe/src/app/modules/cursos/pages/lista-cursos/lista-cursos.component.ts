@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
@@ -12,30 +12,36 @@ import { CursoService } from '../../services/curso.service';
   templateUrl: './lista-cursos.component.html',
   styleUrls: ['./lista-cursos.component.scss']
 })
-export class ListaCursosComponent {
+export class ListaCursosComponent implements OnInit {
+  cursos: any[] = [];
   displayedColumns: string[] = ['nombre', 'profesor', 'cupos', 'acciones'];
 
   constructor(
-    public cursoService: CursoService,
-    private router: Router
+    private readonly cursoService: CursoService,
+    private readonly router: Router
   ) {}
 
-  agregarCurso() {
+  ngOnInit(): void {
+    this.cargarCursos();
+  }
+
+  cargarCursos(): void {
+    this.cursoService.obtenerCursos().subscribe((data) => {
+      this.cursos = data;
+    });
+  }
+
+  agregarCurso(): void {
     this.cursoService.limpiarCursoSeleccionado();
     this.router.navigate(['/cursos/abm']);
   }
 
-  editarCurso(index: number) {
-    this.cursoService.cursos$
-      .subscribe((cursos) => {
-        const curso = cursos[index];
-        this.cursoService.seleccionarCurso(curso, index);
-        this.router.navigate(['/cursos/abm']);
-      })
-      .unsubscribe();
+  editarCurso(curso: any): void {
+    this.cursoService.seleccionarCurso(curso, curso.id);
+    this.router.navigate(['/cursos/abm']);
   }
 
-  eliminarCurso(index: number) {
+  eliminarCurso(curso: any): void {
     Swal.fire({
       title: '¿Estás seguro?',
       text: 'Esta acción eliminará el curso permanentemente.',
@@ -47,13 +53,15 @@ export class ListaCursosComponent {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.cursoService.eliminarCurso(index);
-        Swal.fire({
-          icon: 'success',
-          title: 'Curso eliminado',
-          text: 'El curso fue eliminado correctamente.',
-          timer: 1500,
-          showConfirmButton: false
+        this.cursoService.eliminarCurso(curso.id).subscribe(() => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Curso eliminado',
+            text: 'El curso fue eliminado correctamente.',
+            timer: 1500,
+            showConfirmButton: false
+          });
+          this.cargarCursos(); // Recargamos la lista
         });
       }
     });

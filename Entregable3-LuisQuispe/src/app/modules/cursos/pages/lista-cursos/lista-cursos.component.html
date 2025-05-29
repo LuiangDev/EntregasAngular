@@ -7,32 +7,31 @@
     </button>
   </div>
 
-  <table mat-table [dataSource]="(cursoService.cursos$ | async) || []" class="mat-elevation-z8">
-
+  <table mat-table [dataSource]="cursos" class="mat-elevation-z8">
     <!-- Nombre -->
     <ng-container matColumnDef="nombre">
       <th mat-header-cell *matHeaderCellDef>Nombre</th>
-      <td mat-cell *matCellDef="let element">{{ element.nombre }}</td>
+      <td mat-cell *matCellDef="let curso">{{ curso.nombre }}</td>
     </ng-container>
 
     <!-- Profesor -->
     <ng-container matColumnDef="profesor">
       <th mat-header-cell *matHeaderCellDef>Profesor</th>
-      <td mat-cell *matCellDef="let element">{{ element.profesor }}</td>
+      <td mat-cell *matCellDef="let curso">{{ curso.profesor }}</td>
     </ng-container>
 
     <!-- Cupos -->
     <ng-container matColumnDef="cupos">
       <th mat-header-cell *matHeaderCellDef>Cupos</th>
-      <td mat-cell *matCellDef="let element">{{ element.cupos }}</td>
+      <td mat-cell *matCellDef="let curso">{{ curso.cupos }}</td>
     </ng-container>
 
     <!-- Acciones -->
     <ng-container matColumnDef="acciones">
       <th mat-header-cell *matHeaderCellDef>Acciones</th>
-      <td mat-cell *matCellDef="let element; let i = index">
-        <button class="btn btn-warning btn-sm me-2" (click)="editarCurso(i)">Editar</button>
-        <button class="btn btn-danger btn-sm" (click)="eliminarCurso(i)">Eliminar</button>
+      <td mat-cell *matCellDef="let curso">
+        <button class="btn btn-warning btn-sm me-2" (click)="editarCurso(curso)">Editar</button>
+        <button class="btn btn-danger btn-sm" (click)="eliminarCurso(curso)">Eliminar</button>
       </td>
     </ng-container>
 
