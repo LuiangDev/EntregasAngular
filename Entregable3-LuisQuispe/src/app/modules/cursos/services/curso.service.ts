@@ -9,7 +9,7 @@ export class CursoService {
   private readonly apiUrl = 'http://localhost:3000/cursos';
 
   private readonly cursoSeleccionadoSource = new BehaviorSubject<{ curso: any, id: number } | null>(null);
-  cursoSeleccionado$ = this.cursoSeleccionadoSource.asObservable();
+  readonly cursoSeleccionado$ = this.cursoSeleccionadoSource.asObservable();
 
   constructor(private readonly http: HttpClient) {}
 

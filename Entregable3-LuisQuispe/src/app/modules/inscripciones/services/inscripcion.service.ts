@@ -9,7 +9,7 @@ export class InscripcionService {
   private readonly apiUrl = 'http://localhost:3000/inscripciones';
 
   private readonly inscripcionSeleccionadaSource = new BehaviorSubject<{ inscripcion: any, id: number } | null>(null);
-  inscripcionSeleccionada$ = this.inscripcionSeleccionadaSource.asObservable();
+  readonly inscripcionSeleccionada$ = this.inscripcionSeleccionadaSource.asObservable();
 
   constructor(private readonly http: HttpClient) {}
 
