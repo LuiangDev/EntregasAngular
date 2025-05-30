@@ -1,18 +1,24 @@
-mat-nav-list {
-  a {
-    font-weight: 600;
-    color: #333;
-    border-radius: 8px;
-    padding: 10px;
-    transition: background-color 0.3s ease;
+.navbar-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 
-    &:hover {
-      background-color: #cfd8dc;
-    }
+  .user-info {
+    padding: 16px;
+    font-weight: bold;
+    font-size: 1rem;
+    text-align: center;
   }
 
-  .mat-list-item.active {
-    background-color: #1976d2;
-    color: white;
+  a {
+    margin: 8px 0;
+  }
+
+  .logout-section {
+    margin-top: auto;
+    padding: 16px;
+    button {
+      width: 100%;
+    }
   }
 }

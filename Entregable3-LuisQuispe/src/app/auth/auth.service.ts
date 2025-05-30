@@ -11,6 +11,7 @@ export class AuthService {
     if (password === '12345') {
       localStorage.setItem(this.TOKEN_KEY, 'fake-jwt-token');
       localStorage.setItem(this.ROLE_KEY, role);
+      localStorage.setItem('username', username);
       return true;
     }
     return false;
@@ -28,4 +29,8 @@ export class AuthService {
   getUserRole(): string | null {
     return localStorage.getItem(this.ROLE_KEY);
   }
+
+  getUsername(): string | null {
+  return localStorage.getItem('username');
+}
 }
