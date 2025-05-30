@@ -1,7 +1,7 @@
 # Gestión de Asistentes
 
 Aplicación desarrollada con **Angular CLI**, **Angular Material**, **Bootstrap** y **SweetAlert2**, que permite gestionar alumnos, cursos e inscripciones en un entorno modular, interactivo y profesional.  
-Proyecto correspondiente a la **Segunda Entrega del Proyecto Final**.
+Proyecto correspondiente a la **Tercera Entrega del Proyecto Final**.
 
 ---
 
@@ -13,15 +13,29 @@ Proyecto correspondiente a la **Segunda Entrega del Proyecto Final**.
   - Alumnos: nombre, apellido y email.
   - Cursos: nombre, profesor, cupos.
   - Inscripciones: selección dinámica de alumno, curso y fecha.
-- **Sincronización entre módulos**: 
-  - Cursos y alumnos se cargan dinámicamente en el formulario de inscripción.
 - **Validación de cupos**: no permite inscribir alumnos si el curso ya no tiene vacantes.
+- **Edición inmediata** de registros con formularios reactivos prellenados.
 - **Eliminación con confirmación visual** usando SweetAlert2.
-- **Edición inmediata de registros** con formularios reactivos prellenados.
+- **Sincronización entre módulos**:  
+  - Cursos y alumnos se cargan dinámicamente en el formulario de inscripción.
+- **Autenticación básica**:  
+  - Login con rol (admin/user).  
+  - Navegación condicional según rol autenticado.
+- **Validación de roles en login**:  
+  - Muestra alerta visual si el usuario ingresado no corresponde al rol seleccionado.
 - **Pipe personalizado**: muestra el nombre completo del alumno (Nombre + Apellido).
 - **Directiva personalizada**: aplica un estilo de fuente de 20px a los encabezados.
 - **Botones de Cancelar**: permiten volver al listado sin modificar datos.
 - **Estilo moderno y responsivo**: combinación de Angular Material y Bootstrap.
+
+---
+
+## ✅ Cobertura de testing
+
+- Configuración completa con **Jasmine** y **Karma**.  
+- **22 pruebas unitarias** abarcando componentes y servicios clave.  
+- Validación de creación de componentes, flujos de login, renderizado de vistas, y lógica de roles.  
+- **100% sin errores** ni advertencias en las pruebas.
 
 ---
 
@@ -33,6 +47,8 @@ Proyecto correspondiente a la **Segunda Entrega del Proyecto Final**.
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
 ![RxJS](https://img.shields.io/badge/RxJS-B7178C?style=for-the-badge&logo=reactivex&logoColor=white)
 ![SweetAlert2](https://img.shields.io/badge/SweetAlert2-FF5A5F?style=for-the-badge&logo=sweetalert2&logoColor=white)
+![Jasmine](https://img.shields.io/badge/Jasmine-8A4182?style=for-the-badge&logo=jasmine&logoColor=white)
+![Karma](https://img.shields.io/badge/Karma-47A248?style=for-the-badge&logo=karma&logoColor=white)
 
 ---
 
@@ -43,13 +59,17 @@ Proyecto correspondiente a la **Segunda Entrega del Proyecto Final**.
 git clone https://github.com/LuiangDev/EntregasAngular.git
 
 # Accede al proyecto
-cd Entregable2-LuisQuispe
+cd Entregable3-LuisQuispe
 
 # Instala las dependencias
 npm install
 
 # Ejecuta en entorno local
 ng serve
+
+# Ejecuta las pruebas unitarias
+ng test
+
 ```
 #
 **Luis Angel Quispe Navarro**  
