@@ -43,6 +43,26 @@ Para acceder a la aplicación y navegar como **admin** o **usuario**, puedes usa
 
 ---
 
+## 🖥️ Servidor de API (json-server)
+
+Este proyecto utiliza un servidor simulado con **json-server** para manejar la persistencia de datos (alumnos, cursos, inscripciones).  
+Es importante que levantes este servidor antes de ejecutar la aplicación en local, para que todas las funcionalidades estén disponibles.
+
+### Pasos para levantar el servidor de API:
+
+```bash
+# Instala json-server de manera global (si no lo tienes)
+npm install -g json-server
+
+# Dentro del proyecto, ejecuta:
+json-server --watch db.json --port 3000
+```
+✅ El archivo db.json contiene los datos simulados.
+✅ Por defecto, el servidor estará disponible en: http://localhost:3000/
+
+💡 Recuerda: Si no levantas json-server, la aplicación no podrá cargar datos y las funciones estarán inactivas.
+---
+
 ## ✅ Cobertura de testing
 
 - Configuración completa con **Jasmine** y **Karma**.  
