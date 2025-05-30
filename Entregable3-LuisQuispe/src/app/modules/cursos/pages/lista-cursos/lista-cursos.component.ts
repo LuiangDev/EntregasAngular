@@ -4,6 +4,7 @@ import { MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { CursoService } from '../../services/curso.service';
+import { AuthService } from '../../../../auth/auth.service';
 
 @Component({
   selector: 'app-lista-cursos',
@@ -18,8 +19,13 @@ export class ListaCursosComponent implements OnInit {
 
   constructor(
     private readonly cursoService: CursoService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly authService: AuthService
   ) {}
+
+  esAdmin(): boolean {
+  return this.authService.getUserRole() === 'admin';
+}
 
   ngOnInit(): void {
     this.cargarCursos();

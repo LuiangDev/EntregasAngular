@@ -2,7 +2,7 @@
   <h2>Lista de Cursos</h2>
 
   <div class="d-flex justify-content-end mb-3">
-    <button class="btn btn-primary" (click)="agregarCurso()">
+    <button *ngIf="esAdmin()" class="btn btn-primary" (click)="agregarCurso()">
       + Agregar Curso
     </button>
   </div>
@@ -30,8 +30,8 @@
     <ng-container matColumnDef="acciones">
       <th mat-header-cell *matHeaderCellDef>Acciones</th>
       <td mat-cell *matCellDef="let curso">
-        <button class="btn btn-warning btn-sm me-2" (click)="editarCurso(curso)">Editar</button>
-        <button class="btn btn-danger btn-sm" (click)="eliminarCurso(curso)">Eliminar</button>
+        <button *ngIf="esAdmin()" class="btn btn-warning btn-sm me-2" (click)="editarCurso(curso)">Editar</button>
+        <button *ngIf="esAdmin()" class="btn btn-danger btn-sm" (click)="eliminarCurso(curso)">Eliminar</button>
       </td>
     </ng-container>
 

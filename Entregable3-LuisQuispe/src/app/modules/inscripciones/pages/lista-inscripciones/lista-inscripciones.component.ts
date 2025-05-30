@@ -4,6 +4,7 @@ import { MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { InscripcionService } from '../../services/inscripcion.service';
+import { AuthService } from '../../../../auth/auth.service';
 
 @Component({
   selector: 'app-lista-inscripciones',
@@ -18,8 +19,13 @@ export class ListaInscripcionesComponent implements OnInit {
 
   constructor(
     private readonly inscripcionService: InscripcionService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly authService: AuthService
   ) {}
+
+    esAdmin(): boolean {
+  return this.authService.getUserRole() === 'admin';
+}
 
   ngOnInit(): void {
     this.cargarInscripciones();

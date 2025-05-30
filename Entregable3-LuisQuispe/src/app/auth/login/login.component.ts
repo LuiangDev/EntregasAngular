@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -32,13 +33,33 @@ export class LoginComponent {
   }
 
   onSubmit(): void {
-    const { username, password } = this.loginForm.value;
-    const role = username === 'admin' ? 'admin' : 'user'; // Determinación del rol
+    const { username, password, role } = this.loginForm.value;
 
+    // Validación entre rol y usuario
+    if ((role === 'admin' && username !== 'admin') || (role === 'user' && username !== 'user')) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Rol inválido',
+        text: 'El usuario ingresado no corresponde al rol seleccionado.',
+        confirmButtonText: 'Aceptar'
+      });
+      return;
+    }
+
+    // Validacion de credenciales
     if (this.authService.login(username, password, role)) {
-      this.router.navigate(['/']);
+      if (role === 'admin') {
+        this.router.navigate(['/alumnos']);
+      } else {
+        this.router.navigate(['/inscripciones']);
+      }
     } else {
-      alert('Usuario o contraseña incorrectos.');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Usuario o contraseña incorrectos.',
+        confirmButtonText: 'Aceptar'
+      });
     }
   }
 }

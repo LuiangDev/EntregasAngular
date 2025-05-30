@@ -6,6 +6,7 @@ import { AlumnosService } from '../../services/alumnos.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Titulo20Directive } from '../../../../shared/directives/titulo20.directive';
+import { AuthService } from '../../../../auth/auth.service';
 
 @Component({
   selector: 'app-lista-alumnos',
@@ -18,10 +19,16 @@ export class ListaAlumnosComponent implements OnInit {
   alumnos: any[] = [];
   displayedColumns: string[] = ['nombreCompleto', 'email', 'acciones'];
 
+
   constructor(
     private readonly alumnosService: AlumnosService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly authService: AuthService
   ) {}
+
+    esAdmin(): boolean {
+  return this.authService.getUserRole() === 'admin';
+}
 
   ngOnInit(): void {
     this.cargarAlumnos();
@@ -68,4 +75,5 @@ export class ListaAlumnosComponent implements OnInit {
       }
     });
   }
+
 }
