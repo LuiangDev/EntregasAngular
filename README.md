@@ -30,6 +30,19 @@ Proyecto correspondiente a la **Tercera Entrega del Proyecto Final**.
 
 ---
 
+## 🧪 Credenciales de prueba
+
+Para acceder a la aplicación y navegar como **admin** o **usuario**, puedes usar las siguientes credenciales de prueba:
+
+| Rol   | Usuario | Contraseña |
+|-------|---------|------------|
+| Admin | admin   | 12345      |
+| User  | user    | 12345      |
+
+✅ Puedes usar cualquiera de estas cuentas para evaluar las funcionalidades y la navegación condicional.
+
+---
+
 ## ✅ Cobertura de testing
 
 - Configuración completa con **Jasmine** y **Karma**.  
@@ -69,7 +82,6 @@ ng serve
 
 # Ejecuta las pruebas unitarias
 ng test
-
 ```
 #
 **Luis Angel Quispe Navarro**  
