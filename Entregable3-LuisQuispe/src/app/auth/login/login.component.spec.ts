@@ -3,15 +3,20 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { LoginComponent } from './login.component';
+import Swal from 'sweetalert2';
 
 describe('LoginComponent', () => {
+
+    beforeEach(() => {
+    spyOn(Swal, 'fire');
+  });
+
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   let authServiceSpy: jasmine.SpyObj<AuthService>;
   let routerSpy: jasmine.SpyObj<Router>;
 
   beforeEach(async () => {
-    // Mocks del AuthService y el Router
     const authServiceMock = jasmine.createSpyObj('AuthService', ['login']);
     const routerMock = jasmine.createSpyObj('Router', ['navigate']);
 
@@ -42,7 +47,7 @@ describe('LoginComponent', () => {
     component.loginForm.setValue({
       username: 'admin',
       password: '12345',
-      role: 'admin' 
+      role: 'admin'
     });
     expect(component.loginForm.valid).toBeTruthy();
   });
@@ -54,28 +59,25 @@ describe('LoginComponent', () => {
       role: 'admin'
     });
 
-    // Simulación de un login exitoso
     authServiceSpy.login.and.returnValue(true);
-
     component.onSubmit();
 
-    // Verificación de parámetros y navegación
     expect(authServiceSpy.login).toHaveBeenCalledWith('admin', '12345', 'admin');
     expect(routerSpy.navigate).toHaveBeenCalledWith(['/alumnos']);
   });
 
   it('should not navigate if login fails', () => {
+
     component.loginForm.setValue({
-      username: 'wrong',
+      username: 'user',
       password: 'wrong',
       role: 'user'
     });
 
     authServiceSpy.login.and.returnValue(false);
-
     component.onSubmit();
 
-    expect(authServiceSpy.login).toHaveBeenCalledWith('wrong', 'wrong', 'user');
+    expect(authServiceSpy.login).toHaveBeenCalledWith('user', 'wrong', 'user');
     expect(routerSpy.navigate).not.toHaveBeenCalled();
   });
 });
