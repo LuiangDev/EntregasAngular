@@ -10,7 +10,6 @@ import { AlumnosService } from '../../services/alumnos.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-abm-alumnos',
   standalone: true,
@@ -23,7 +22,11 @@ export class AbmAlumnosComponent {
   alumnoEditando: any = null;
   indiceEditando: number | null = null;
 
-  constructor(private fb: FormBuilder, private alumnosService: AlumnosService,private router: Router) {
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly alumnosService: AlumnosService,
+    private readonly router: Router
+  ) {
     this.alumnoForm = this.fb.group({
       nombre: ['', [Validators.required]],
       apellido: ['', [Validators.required]],
@@ -33,7 +36,8 @@ export class AbmAlumnosComponent {
     this.alumnosService.alumnoSeleccionado$.subscribe((data) => {
       if (data) {
         this.alumnoEditando = data.alumno;
-        this.indiceEditando = data.index;
+        this.indiceEditando = data.id;
+
         this.alumnoForm.patchValue(data.alumno);
       }
     });
@@ -42,8 +46,10 @@ export class AbmAlumnosComponent {
   onSubmit() {
     if (this.alumnoForm.valid) {
       if (this.indiceEditando !== null) {
-
-        this.alumnosService.actualizarAlumno(this.indiceEditando, this.alumnoForm.value);
+        this.alumnosService.actualizarAlumno(
+          this.indiceEditando,
+          this.alumnoForm.value
+        );
 
         Swal.fire({
           icon: 'success',
@@ -52,9 +58,7 @@ export class AbmAlumnosComponent {
         }).then(() => {
           this.router.navigate(['/alumnos']);
         });
-
       } else {
-
         this.alumnosService.agregarAlumno(this.alumnoForm.value);
 
         Swal.fire({
@@ -75,10 +79,7 @@ export class AbmAlumnosComponent {
   }
 
   cancelar() {
-  this.alumnoForm.reset();
-  this.router.navigate(['/alumnos']);
-}
-
-
-
+    this.alumnoForm.reset();
+    this.router.navigate(['/alumnos']);
+  }
 }
