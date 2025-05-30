@@ -5,12 +5,10 @@ import {
   platformBrowserDynamicTesting,
 } from '@angular/platform-browser-dynamic/testing';
 
-// Entorno de pruebas
 getTestBed().initTestEnvironment(
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting()
 );
 
-
-const context = (require as any).context('./', true, /\.spec\.ts$/);
-context.keys().forEach(context);
+import './app/auth/login/login.component.spec';
+import './app/modules/alumnos/services/alumnos.service.spec';

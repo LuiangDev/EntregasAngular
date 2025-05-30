@@ -39,31 +39,43 @@ describe('LoginComponent', () => {
   });
 
   it('should have form valid when filled', () => {
-    component.loginForm.setValue({ username: 'admin', password: '12345' });
+    component.loginForm.setValue({
+      username: 'admin',
+      password: '12345',
+      role: 'admin' 
+    });
     expect(component.loginForm.valid).toBeTruthy();
   });
 
   it('should call AuthService.login and navigate to home on successful login', () => {
-    component.loginForm.setValue({ username: 'admin', password: '12345' });
+    component.loginForm.setValue({
+      username: 'admin',
+      password: '12345',
+      role: 'admin'
+    });
 
     // Simulación de un login exitoso
     authServiceSpy.login.and.returnValue(true);
 
     component.onSubmit();
 
-    // Verificación de parametros y navegación
-    expect(authServiceSpy.login).toHaveBeenCalledWith('admin', '12345', jasmine.any(String));
-    expect(routerSpy.navigate).toHaveBeenCalledWith(['/']);
+    // Verificación de parámetros y navegación
+    expect(authServiceSpy.login).toHaveBeenCalledWith('admin', '12345', 'admin');
+    expect(routerSpy.navigate).toHaveBeenCalledWith(['/alumnos']);
   });
 
   it('should not navigate if login fails', () => {
-    component.loginForm.setValue({ username: 'wrong', password: 'wrong' });
+    component.loginForm.setValue({
+      username: 'wrong',
+      password: 'wrong',
+      role: 'user'
+    });
 
     authServiceSpy.login.and.returnValue(false);
 
     component.onSubmit();
 
-    expect(authServiceSpy.login).toHaveBeenCalledWith('wrong', 'wrong', jasmine.any(String));
+    expect(authServiceSpy.login).toHaveBeenCalledWith('wrong', 'wrong', 'user');
     expect(routerSpy.navigate).not.toHaveBeenCalled();
   });
 });
