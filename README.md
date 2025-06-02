@@ -1,7 +1,7 @@
 # Gestión de Asistentes
 
 Aplicación desarrollada con **Angular CLI**, **Angular Material**, **Bootstrap** y **SweetAlert2**, que permite gestionar alumnos, cursos e inscripciones en un entorno modular, interactivo y profesional.  
-Proyecto correspondiente a la **Tercera Entrega del Proyecto Final**.
+Proyecto correspondiente al **Proyecto Final** del Curso de Desarrollador Frontend con Angular de Coderhouse.
 
 ---
 
@@ -105,7 +105,7 @@ ng test
 ```
 #
 **Luis Angel Quispe Navarro**  
-Desarrollador Front-End | Ingeniero de Sistemas Computacionales  
+Desarrollador Front-End | Ingeniero de Sistemas Computacionales | Diseñador UI 
 ✉️ angel.quispe.navarro@outlook.com  
 [![GitHub](https://img.shields.io/badge/GitHub-LuiangDev-181717?style=for-the-badge&logo=github)](https://github.com/LuiangDev)  
 📌 Lima, Perú
