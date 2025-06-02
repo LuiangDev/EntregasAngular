@@ -25,5 +25,5 @@ import { ToolbarComponent } from './layout/toolbar/toolbar.component';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  title = '3PFQuispe';
+  title = 'PFQuispe';
 }
