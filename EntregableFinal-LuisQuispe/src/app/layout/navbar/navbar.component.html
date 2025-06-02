@@ -1,0 +1,37 @@
+<mat-nav-list class="navbar-container">
+  <div class="user-info" *ngIf="isLoggedIn">
+    <span class="user-name">{{ getUserName() }}</span>
+  </div>
+
+  <!-- Opciones de navegación según rol -->
+  <a
+    *ngIf="isLoggedIn && role === 'admin'"
+    mat-list-item
+    routerLink="/alumnos"
+    routerLinkActive="active"
+  >
+    Alumnos
+  </a>
+  <a
+    *ngIf="isLoggedIn && role === 'admin'"
+    mat-list-item
+    routerLink="/cursos"
+    routerLinkActive="active"
+  >
+    Cursos
+  </a>
+  <a
+    *ngIf="isLoggedIn"
+    mat-list-item
+    routerLink="/inscripciones"
+    routerLinkActive="active"
+  >
+    Inscripciones
+  </a>
+
+  <div class="logout-section" *ngIf="isLoggedIn">
+    <button mat-raised-button color="warn" (click)="logout()">
+      Cerrar sesión
+    </button>
+  </div>
+</mat-nav-list>
