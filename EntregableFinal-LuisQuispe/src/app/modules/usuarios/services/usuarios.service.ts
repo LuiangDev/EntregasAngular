@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Usuario } from 'src/app/shared/models/usuario.model';
+import { Usuario } from '../../../shared/models/usuario.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuariosService {
-  private apiUrl = 'https://tu-endpoint.mockapi.io/usuarios'; 
+  private apiUrl = 'https://tu-endpoint.mockapi.io/usuarios';
 
   constructor(private http: HttpClient) {}
 

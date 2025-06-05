@@ -8,7 +8,7 @@ describe('ListaUsuariosComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ListaUsuariosComponent]
+      declarations: [ListaUsuariosComponent]
     })
     .compileComponents();
 

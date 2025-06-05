@@ -1,1 +1,42 @@
-<p>abm-usuarios works!</p>
+<div class="container">
+  <h2>{{ modoEdicion ? 'Editar Usuario' : 'Crear Usuario' }}</h2>
+
+  <form [formGroup]="usuarioForm" (ngSubmit)="guardar()">
+    <div class="form-group">
+      <label>Nombre:</label>
+      <input type="text" formControlName="nombre" class="form-control" />
+    </div>
+
+    <div class="form-group">
+      <label>Email:</label>
+      <input type="email" formControlName="email" class="form-control" />
+    </div>
+
+    <div class="form-group" *ngIf="!modoEdicion">
+      <label>Contraseña:</label>
+      <input type="password" formControlName="password" class="form-control" />
+    </div>
+
+    <div class="form-group">
+      <label>Dirección:</label>
+      <input type="text" formControlName="direccion" class="form-control" />
+    </div>
+
+    <div class="form-group">
+      <label>Teléfono:</label>
+      <input type="text" formControlName="telefono" class="form-control" />
+    </div>
+
+    <div class="form-group">
+      <label>Perfil:</label>
+      <select formControlName="perfil" class="form-control">
+        <option value="admin">Administrador</option>
+        <option value="usuario">Usuario</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-success mt-3">
+      {{ modoEdicion ? 'Actualizar' : 'Guardar' }}
+    </button>
+  </form>
+</div>
