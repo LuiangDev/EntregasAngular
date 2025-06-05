@@ -7,7 +7,7 @@ import { Usuario } from '../../../shared/models/usuario.model';
   providedIn: 'root'
 })
 export class UsuariosService {
-  private apiUrl = 'https://tu-endpoint.mockapi.io/usuarios';
+  private readonly apiUrl = 'https://mockapi.io/endpoint/usuarios';
 
   constructor(private http: HttpClient) {}
 
