@@ -1,17 +1,45 @@
 {
   "alumnos": [
-    { "id": 1, "nombre": "Luis", "apellido": "Quispe", "email": "luis.quispe@gmail.com" },
-    { "id": 2, "nombre": "Cinthia", "apellido": "Garcia", "email": "cinthia.garcia@gmail.com" }
+    {
+      "id": "1",
+      "nombre": "Luis",
+      "apellido": "Quispe",
+      "email": "luis.quispe@gmail.com"
+    },
+    {
+      "id": "2",
+      "nombre": "Cinthia",
+      "apellido": "Garcia",
+      "email": "cinthia.garcia@gmail.com"
+    }
   ],
   "cursos": [
-    { "id": 1, "nombre": "Angular Básico", "profesor": "Adolfo Correa", "cupos": 3 },
-    { "id": 2, "nombre": "TypeScript Avanzado", "profesor": "Liliana Valqui", "cupos": 2 }
+    {
+      "id": "1",
+      "nombre": "Angular Básico",
+      "profesor": "Adolfo Correa",
+      "cupos": 3
+    },
+    {
+      "id": "2",
+      "nombre": "TypeScript Avanzado",
+      "profesor": "Liliana Valqui",
+      "cupos": 2
+    }
   ],
-  "inscripciones": [
-    { "id": 1, "alumno": "Luis Quispe", "curso": "Angular Básico", "fecha": "2025-05-01" }
-  ],
+  "inscripciones": [],
   "usuarios": [
-    { "id": 1, "username": "admin", "password": "12345", "role": "admin" },
-    { "id": 2, "username": "user", "password": "12345", "role": "user" }
+    {
+      "id": "1",
+      "username": "admin",
+      "password": "12345",
+      "role": "admin"
+    },
+    {
+      "id": "2",
+      "username": "user",
+      "password": "12345",
+      "role": "user"
+    }
   ]
 }

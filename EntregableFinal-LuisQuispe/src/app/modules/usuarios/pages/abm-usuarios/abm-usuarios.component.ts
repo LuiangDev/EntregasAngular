@@ -21,10 +21,10 @@ export class AbmUsuariosComponent implements OnInit {
   idUsuario!: number;
 
   constructor(
-    private fb: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router,
-    private usuariosService: UsuariosService
+    private readonly fb: FormBuilder,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly usuariosService: UsuariosService
   ) {}
 
   ngOnInit(): void {
