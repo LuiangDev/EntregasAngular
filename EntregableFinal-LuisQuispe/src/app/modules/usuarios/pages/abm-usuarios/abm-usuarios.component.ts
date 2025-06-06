@@ -7,10 +7,10 @@ import { Usuario } from '../../../../shared/models/usuario.model';
 
 @Component({
   selector: 'app-abm-usuarios',
-  standalone: true,
+  standalone: true, // ✅ OBLIGATORIO
   imports: [
-    CommonModule,
-    ReactiveFormsModule
+    CommonModule,      // ✅ Para usar *ngIf, *ngFor
+    ReactiveFormsModule // ✅ Para formularios
   ],
   templateUrl: './abm-usuarios.component.html',
   styleUrls: ['./abm-usuarios.component.scss']
@@ -37,9 +37,10 @@ export class AbmUsuariosComponent implements OnInit {
       perfil: ['usuario', Validators.required]
     });
 
-    this.idUsuario = Number(this.route.snapshot.paramMap.get('id'));
-    if (this.idUsuario) {
+    const idParam = this.route.snapshot.paramMap.get('id');
+    if (idParam) {
       this.modoEdicion = true;
+      this.idUsuario = Number(idParam);
       this.usuariosService.getUsuario(this.idUsuario).subscribe((usuario) => {
         this.usuarioForm.patchValue(usuario);
       });

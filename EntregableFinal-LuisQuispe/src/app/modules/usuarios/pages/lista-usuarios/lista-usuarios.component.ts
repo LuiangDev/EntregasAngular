@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { UsuariosService } from '../../services/usuarios.service';
 import { Usuario } from '../../../../shared/models/usuario.model';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-lista-usuarios',
+  standalone: true,
+  imports: [CommonModule, RouterModule],
   templateUrl: './lista-usuarios.component.html',
   styleUrls: ['./lista-usuarios.component.scss']
 })
@@ -12,8 +15,8 @@ export class ListaUsuariosComponent implements OnInit {
   usuarios: Usuario[] = [];
 
   constructor(
-    private usuariosService: UsuariosService,
-    private router: Router
+    private readonly usuariosService: UsuariosService,
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {

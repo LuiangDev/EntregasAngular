@@ -7,18 +7,26 @@ import { RoleGuard } from '../../auth/role.guard';
 const routes: Routes = [
   {
     path: '',
+    component: ListaUsuariosComponent,
     canActivate: [RoleGuard],
     data: { expectedRole: 'admin' },
-    children: [
-      { path: '', component: ListaUsuariosComponent },
-      { path: 'crear', component: AbmUsuariosComponent },
-      { path: 'editar/:id', component: AbmUsuariosComponent }
-    ]
-  }
+  },
+  {
+    path: 'crear',
+    component: AbmUsuariosComponent,
+    canActivate: [RoleGuard],
+    data: { expectedRole: 'admin' },
+  },
+  {
+    path: 'editar/:id',
+    component: AbmUsuariosComponent,
+    canActivate: [RoleGuard],
+    data: { expectedRole: 'admin' },
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class UsuariosRoutingModule {}

@@ -1,6 +1,6 @@
 <div class="container">
   <h2>Gestión de Usuarios</h2>
-  <a routerLink="/usuarios/crear" class="btn btn-primary mb-3">➕ Crear nuevo usuario</a>
+  <a routerLink="/usuarios/crear" class="btn btn-primary mb-3"> + Crear nuevo usuario</a>
 
   <table class="table table-striped">
     <thead>
@@ -21,8 +21,8 @@
         <td>{{ usuario.telefono }}</td>
         <td>{{ usuario.direccion }}</td>
         <td>
-          <button (click)="editarUsuario(usuario.id)" class="btn btn-sm btn-warning">✏️ Editar</button>
-          <button (click)="eliminarUsuario(usuario.id)" class="btn btn-sm btn-danger">🗑️ Eliminar</button>
+          <button (click)="editarUsuario(usuario.id)" class="btn btn-sm btn-warning">Editar</button>
+          <button (click)="eliminarUsuario(usuario.id)" class="btn btn-sm btn-danger">Eliminar</button>
         </td>
       </tr>
     </tbody>
