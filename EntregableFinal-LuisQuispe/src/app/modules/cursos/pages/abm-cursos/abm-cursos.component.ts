@@ -57,12 +57,17 @@ export class AbmCursosComponent {
       const curso = this.cursoForm.value;
 
       if (this.indiceEditando !== null) {
-        this.cursoService.actualizarCurso(this.indiceEditando, curso);
-        Swal.fire(
-          'Actualizado',
-          'El curso fue modificado correctamente.',
-          'success'
-        );
+        this.cursoService
+          .actualizarCurso(this.indiceEditando, curso)
+          .subscribe(() => {
+            Swal.fire(
+              'Actualizado',
+              'El curso fue modificado correctamente.',
+              'success'
+            ).then(() => {
+              this.router.navigate(['/cursos']);
+            });
+          });
       } else {
         this.cursoService.agregarCurso(curso).subscribe(() => {
           Swal.fire(
@@ -77,7 +82,7 @@ export class AbmCursosComponent {
 
       this.cursoForm.reset();
       this.cursoService.limpiarCursoSeleccionado();
-      this.router.navigate(['/cursos']);
+      this.indiceEditando = null;
     } else {
       this.cursoForm.markAllAsTouched();
     }

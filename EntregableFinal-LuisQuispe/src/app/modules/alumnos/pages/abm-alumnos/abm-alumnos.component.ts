@@ -46,18 +46,17 @@ export class AbmAlumnosComponent {
   onSubmit() {
     if (this.alumnoForm.valid) {
       if (this.indiceEditando !== null) {
-        this.alumnosService.actualizarAlumno(
-          this.indiceEditando,
-          this.alumnoForm.value
-        );
-
-        Swal.fire({
-          icon: 'success',
-          title: 'Alumno actualizado',
-          text: 'Los datos del alumno fueron modificados correctamente.',
-        }).then(() => {
-          this.router.navigate(['/alumnos']);
-        });
+        this.alumnosService
+          .actualizarAlumno(this.indiceEditando, this.alumnoForm.value)
+          .subscribe(() => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Alumno actualizado',
+              text: 'Los datos del alumno fueron modificados correctamente.',
+            }).then(() => {
+              this.router.navigate(['/alumnos']);
+            });
+          });
       } else {
         this.alumnosService
           .agregarAlumno(this.alumnoForm.value)
