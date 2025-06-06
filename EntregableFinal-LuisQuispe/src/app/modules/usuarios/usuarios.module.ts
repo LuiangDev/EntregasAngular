@@ -7,15 +7,14 @@ import { ListaUsuariosComponent } from '../usuarios/pages/lista-usuarios/lista-u
 import { AbmUsuariosComponent } from './pages/abm-usuarios/abm-usuarios.component';
 
 @NgModule({
-  declarations: [
-    ListaUsuariosComponent,
-    AbmUsuariosComponent
-  ],
+  declarations: [],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    UsuariosRoutingModule
+    UsuariosRoutingModule,
+    ListaUsuariosComponent,
+    AbmUsuariosComponent
   ]
 })
 export class UsuariosModule {}
