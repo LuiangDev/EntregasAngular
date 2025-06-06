@@ -11,6 +11,12 @@
       "nombre": "Cinthia",
       "apellido": "Garcia",
       "email": "cinthia.garcia@gmail.com"
+    },
+    {
+      "id": "adfa",
+      "nombre": "Nayeli",
+      "apellido": "Alvarado",
+      "email": "nayeli@example.com"
     }
   ],
   "cursos": [
@@ -21,7 +27,15 @@
       "cupos": 3
     }
   ],
-  "inscripciones": [],
+  "inscripciones": [
+    {
+      "id": "c815",
+      "alumno": "Nayeli Alvarado",
+      "curso": "Angular Básico",
+      "fecha": "0012-12-12",
+      "usuario": "Anónimo"
+    }
+  ],
   "usuarios": [
     {
       "id": "1",

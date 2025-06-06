@@ -59,15 +59,17 @@ export class AbmAlumnosComponent {
           this.router.navigate(['/alumnos']);
         });
       } else {
-        this.alumnosService.agregarAlumno(this.alumnoForm.value);
-
-        Swal.fire({
-          icon: 'success',
-          title: 'Alumno agregado',
-          text: 'El alumno fue registrado correctamente.',
-        }).then(() => {
-          this.router.navigate(['/alumnos']);
-        });
+        this.alumnosService
+          .agregarAlumno(this.alumnoForm.value)
+          .subscribe(() => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Alumno agregado',
+              text: 'El alumno fue registrado correctamente.',
+            }).then(() => {
+              this.router.navigate(['/alumnos']);
+            });
+          });
       }
 
       this.alumnoForm.reset();
