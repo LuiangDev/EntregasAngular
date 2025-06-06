@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { Inscripcion } from '../../../shared/models/inscripcion.model';
 
 @Injectable({
   providedIn: 'root'
@@ -8,28 +9,28 @@ import { Observable, BehaviorSubject } from 'rxjs';
 export class InscripcionService {
   private readonly apiUrl = 'http://localhost:3000/inscripciones';
 
-  private readonly inscripcionSeleccionadaSource = new BehaviorSubject<{ inscripcion: any, id: number } | null>(null);
+  private readonly inscripcionSeleccionadaSource = new BehaviorSubject<{ inscripcion: Inscripcion, id: number } | null>(null);
   readonly inscripcionSeleccionada$ = this.inscripcionSeleccionadaSource.asObservable();
 
   constructor(private readonly http: HttpClient) {}
 
-  obtenerInscripciones(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+  obtenerInscripciones(): Observable<Inscripcion[]> {
+    return this.http.get<Inscripcion[]>(this.apiUrl);
   }
 
-  agregarInscripcion(inscripcion: any): Observable<any> {
-    return this.http.post<any>(this.apiUrl, inscripcion);
+  agregarInscripcion(inscripcion: Inscripcion): Observable<Inscripcion> {
+    return this.http.post<Inscripcion>(this.apiUrl, inscripcion);
   }
 
-  actualizarInscripcion(id: number, inscripcionActualizada: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/${id}`, inscripcionActualizada);
+  actualizarInscripcion(id: number, inscripcionActualizada: Inscripcion): Observable<Inscripcion> {
+    return this.http.put<Inscripcion>(`${this.apiUrl}/${id}`, inscripcionActualizada);
   }
 
-  eliminarInscripcion(id: number): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/${id}`);
+  eliminarInscripcion(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
-  seleccionarInscripcion(inscripcion: any, id: number) {
+  seleccionarInscripcion(inscripcion: Inscripcion, id: number) {
     this.inscripcionSeleccionadaSource.next({ inscripcion, id });
   }
 
