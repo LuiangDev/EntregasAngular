@@ -11,14 +11,14 @@ export const routes: Routes = [
   {
     path: 'alumnos',
     canActivate: [AuthGuard, RoleGuard],
-    data: { expectedRole: 'admin' },
+    data: { roles: ['admin'] },
     loadChildren: () =>
       import('./modules/alumnos/alumnos.module').then((m) => m.AlumnosModule),
   },
   {
     path: 'cursos',
     canActivate: [AuthGuard, RoleGuard],
-    data: { expectedRole: 'admin' },
+    data: { roles: ['admin'] },
     loadChildren: () =>
       import('./modules/cursos/cursos.module').then((m) => m.CursosModule),
   },
@@ -42,11 +42,11 @@ export const routes: Routes = [
 
   {
     path: '',
-    redirectTo: 'alumnos',
+    redirectTo: 'login',
     pathMatch: 'full',
   },
   {
     path: '**',
-    redirectTo: 'alumnos',
+    redirectTo: 'login',
   },
 ];

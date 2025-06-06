@@ -32,34 +32,37 @@ export class LoginComponent {
     });
   }
 
-  onSubmit(): void {
-    const { username, password, role } = this.loginForm.value;
+onSubmit(): void {
+  const { username, password, role } = this.loginForm.value;
 
-    // Validación entre rol y usuario
-    if ((role === 'admin' && username !== 'admin') || (role === 'user' && username !== 'user')) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Rol inválido',
-        text: 'El usuario ingresado no corresponde al rol seleccionado.',
-        confirmButtonText: 'Aceptar'
-      });
-      return;
-    }
+  // Validación
+  const validCombination =
+    (role === 'admin' && username === 'admin') ||
+    (role === 'user' && username === 'user');
 
-    // Validacion de credenciales
-    if (this.authService.login(username, password, role)) {
-      if (role === 'admin') {
-        this.router.navigate(['/alumnos']);
-      } else {
-        this.router.navigate(['/inscripciones']);
-      }
-    } else {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'Usuario o contraseña incorrectos.',
-        confirmButtonText: 'Aceptar'
-      });
-    }
+  if (!validCombination) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Rol inválido',
+      text: 'El usuario ingresado no corresponde al rol seleccionado.',
+      confirmButtonText: 'Aceptar'
+    });
+    return;
   }
+
+  // Validación
+  const loginExitoso = this.authService.login(username, password, role);
+
+  if (loginExitoso) {
+    this.router.navigate([role === 'admin' ? '/alumnos' : '/inscripciones']);
+  } else {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'Usuario o contraseña incorrectos.',
+      confirmButtonText: 'Aceptar'
+    });
+  }
+}
+
 }
