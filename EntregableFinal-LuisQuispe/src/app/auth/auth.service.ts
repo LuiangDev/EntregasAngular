@@ -10,13 +10,14 @@ export class AuthService {
   private readonly USER_KEY = 'usuario';
 
   // Notificamos cambios de autenticación
-  private readonly authStatusSource = new BehaviorSubject<boolean>(this.isLoggedIn());
+  private readonly authStatusSource = new BehaviorSubject<boolean>(
+    this.isLoggedIn()
+  );
   authStatus$ = this.authStatusSource.asObservable();
 
   constructor() {}
 
-
-//Simulamos login y guardamos token, rol y usuario en localStorage
+  //Simulamos login y guardamos token, rol y usuario en localStorage
   login(username: string, password: string, role: string): boolean {
     if (password === '12345') {
       localStorage.setItem(this.TOKEN_KEY, 'fake-jwt-token');
@@ -26,7 +27,7 @@ export class AuthService {
         id: 999,
         nombre: username,
         email: `${username}@correo.com`,
-        perfil: role
+        perfil: role,
       };
       localStorage.setItem(this.USER_KEY, JSON.stringify(usuarioSimulado));
 
@@ -36,7 +37,7 @@ export class AuthService {
     return false;
   }
 
- //Cerramos sesión y eliminamos token, rol y usuario del localStorage
+  //Cerramos sesión y eliminamos token, rol y usuario del localStorage
   logout(): void {
     localStorage.removeItem(this.TOKEN_KEY);
     localStorage.removeItem(this.ROLE_KEY);
@@ -44,41 +45,38 @@ export class AuthService {
     this.authStatusSource.next(false);
   }
 
-//Validamos si el usuario está logueado
+  //Validamos si el usuario está logueado
   isLoggedIn(): boolean {
     return !!localStorage.getItem(this.TOKEN_KEY);
   }
 
-//Retornamos el token de autenticación
+  //Retornamos el token de autenticación
   getUserRole(): string | null {
     return localStorage.getItem(this.ROLE_KEY);
   }
 
-//Retornamos el usuario logueado
+  //Retornamos el usuario logueado
   getUsuario() {
     const usuarioJSON = localStorage.getItem(this.USER_KEY);
     return usuarioJSON ? JSON.parse(usuarioJSON) : null;
   }
 
-//Retornamos el nombre de usuario
+  //Retornamos el nombre de usuario
   getUsername(): string | null {
-  return localStorage.getItem('username');
-}
-
-getUserId(): number | null {
-  const usuarioStr = localStorage.getItem('usuario');
-  if (usuarioStr) {
-    try {
-      const usuario = JSON.parse(usuarioStr);
-      return usuario?.id ?? null;
-    } catch (error) {
-      console.warn('Error al parsear el usuario del localStorage', error);
-      return null;
-    }
+    return localStorage.getItem('username');
   }
-  return null;
-}
 
-
-
+  getUserId(): number | null {
+    const usuarioStr = localStorage.getItem('usuario');
+    if (usuarioStr) {
+      try {
+        const usuario = JSON.parse(usuarioStr);
+        return usuario?.id ?? null;
+      } catch (error) {
+        console.warn('Error al parsear el usuario del localStorage', error);
+        return null;
+      }
+    }
+    return null;
+  }
 }
