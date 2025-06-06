@@ -64,12 +64,15 @@ export class AbmCursosComponent {
           'success'
         );
       } else {
-        this.cursoService.agregarCurso(curso);
-        Swal.fire(
-          'Agregado',
-          'El curso fue registrado correctamente.',
-          'success'
-        );
+        this.cursoService.agregarCurso(curso).subscribe(() => {
+          Swal.fire(
+            'Agregado',
+            'El curso fue registrado correctamente.',
+            'success'
+          ).then(() => {
+            this.router.navigate(['/cursos']);
+          });
+        });
       }
 
       this.cursoForm.reset();

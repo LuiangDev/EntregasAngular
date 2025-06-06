@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { CursoService } from '../../services/curso.service';
 import { AuthService } from '../../../../auth/auth.service';
@@ -13,7 +14,7 @@ import { AuthService } from '../../../../auth/auth.service';
   templateUrl: './lista-cursos.component.html',
   styleUrls: ['./lista-cursos.component.scss']
 })
-export class ListaCursosComponent implements OnInit {
+export class ListaCursosComponent {
   cursos: any[] = [];
   displayedColumns: string[] = ['nombre', 'profesor', 'cupos', 'acciones'];
 
@@ -21,14 +22,16 @@ export class ListaCursosComponent implements OnInit {
     private readonly cursoService: CursoService,
     private readonly router: Router,
     private readonly authService: AuthService
-  ) {}
+  ) {
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.cargarCursos();
+      });
+  }
 
   esAdmin(): boolean {
-  return this.authService.getUserRole() === 'admin';
-}
-
-  ngOnInit(): void {
-    this.cargarCursos();
+    return this.authService.getUserRole() === 'admin';
   }
 
   cargarCursos(): void {
@@ -67,7 +70,7 @@ export class ListaCursosComponent implements OnInit {
             timer: 1500,
             showConfirmButton: false
           });
-          this.cargarCursos(); // Recargamos la lista
+          this.cargarCursos();
         });
       }
     });

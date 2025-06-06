@@ -11,12 +11,6 @@
       "nombre": "Cinthia",
       "apellido": "Garcia",
       "email": "cinthia.garcia@gmail.com"
-    },
-    {
-      "id": "adfa",
-      "nombre": "Nayeli",
-      "apellido": "Alvarado",
-      "email": "nayeli@example.com"
     }
   ],
   "cursos": [
@@ -25,15 +19,31 @@
       "nombre": "Angular Básico",
       "profesor": "Adolfo Correa",
       "cupos": 3
+    },
+    {
+      "id": "d6e7",
+      "nombre": "Figma",
+      "profesor": "Daniel Tanimo",
+      "horas": 3,
+      "clases": 3,
+      "cupos": 5
+    },
+    {
+      "id": "8ef0",
+      "nombre": "Inventor",
+      "profesor": "Lamin Yamal",
+      "horas": 1,
+      "clases": 1,
+      "cupos": 10
     }
   ],
   "inscripciones": [
     {
-      "id": "c815",
-      "alumno": "Nayeli Alvarado",
+      "alumno": "Luis Quispe",
       "curso": "Angular Básico",
       "fecha": "0012-12-12",
-      "usuario": "Anónimo"
+      "usuario": "Anónimo",
+      "id": "c815"
     }
   ],
   "usuarios": [
