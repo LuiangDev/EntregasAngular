@@ -32,6 +32,8 @@ export const routes: Routes = [
   },
   {
     path: 'usuarios',
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['admin'] },
     loadChildren: () =>
       import('./modules/usuarios/usuarios.module').then(
         (m) => m.UsuariosModule

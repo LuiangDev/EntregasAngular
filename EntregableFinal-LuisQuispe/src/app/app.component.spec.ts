@@ -15,7 +15,7 @@ describe('AppComponent', () => {
 
   afterEach(() => {
     if (fixture) {
-      fixture.destroy(); // 👈 Destruye el fixture para limpiar bien
+      fixture.destroy();
     }
   });
 

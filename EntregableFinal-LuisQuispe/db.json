@@ -19,12 +19,6 @@
       "nombre": "Angular Básico",
       "profesor": "Adolfo Correa",
       "cupos": 3
-    },
-    {
-      "id": "2",
-      "nombre": "TypeScript Avanzado",
-      "profesor": "Liliana Valqui",
-      "cupos": 2
     }
   ],
   "inscripciones": [],

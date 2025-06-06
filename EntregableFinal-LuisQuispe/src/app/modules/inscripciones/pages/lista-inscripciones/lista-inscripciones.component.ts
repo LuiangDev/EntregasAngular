@@ -49,6 +49,11 @@ export class ListaInscripcionesComponent implements OnInit {
     return this.authService.getUserRole() === 'admin';
   }
 
+  esPropia(inscripcion: any): boolean {
+  const currentUserId = this.authService.getUserId();
+  return inscripcion.usuarioId === currentUserId;
+}
+
   agregarInscripcion(): void {
     this.inscripcionService.limpiarInscripcionSeleccionada();
     this.router.navigate(['/inscripciones/abm']);
@@ -98,4 +103,5 @@ export class ListaInscripcionesComponent implements OnInit {
   getNombreCurso(id: number | string): string {
     return this.cursos.find(c => c.id === id || c.nombre === id)?.nombre ?? 'Desconocido';
   }
+
 }

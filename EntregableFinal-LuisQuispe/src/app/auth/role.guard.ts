@@ -6,31 +6,21 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class RoleGuard implements CanActivate {
+
   constructor(
     private readonly authService: AuthService,
     private readonly router: Router
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot): boolean {
-    const expectedRole = route.data['expectedRole'];
+    const expectedRoles = route.data['roles'] as string[];
     const currentRole = this.authService.getUserRole();
 
-    // Permitimos acceso dependiendo del rol actual
-    if (currentRole === expectedRole) {
+    if (expectedRoles?.includes(currentRole ?? '')) {
       return true;
     }
 
-    // User accede a alumnos y cursos
-    if (
-      currentRole === 'user' &&
-      (route.routeConfig?.path === 'alumnos' ||
-        route.routeConfig?.path === 'cursos' ||
-        route.routeConfig?.path === 'inscripciones')
-    ) {
-      return true;
-    }
-
-    // Redirigimos según el rol
+    // Redirección según rol
     if (currentRole === 'user') {
       this.router.navigate(['/inscripciones']);
     } else if (currentRole === 'admin') {
@@ -38,6 +28,7 @@ export class RoleGuard implements CanActivate {
     } else {
       this.router.navigate(['/login']);
     }
+
     return false;
   }
 }

@@ -2,21 +2,62 @@
   <h2>Formulario de Curso</h2>
 
   <form [formGroup]="cursoForm" (ngSubmit)="onSubmit()">
+
+    <!-- Nombre del Curso -->
     <mat-form-field appearance="outline" class="w-100 mb-3">
       <mat-label>Nombre del Curso</mat-label>
       <input matInput formControlName="nombre" />
+      <mat-error *ngIf="cursoForm.get('nombre')?.hasError('required')">
+        El nombre es obligatorio
+      </mat-error>
     </mat-form-field>
 
+    <!-- Profesor -->
     <mat-form-field appearance="outline" class="w-100 mb-3">
       <mat-label>Profesor</mat-label>
       <input matInput formControlName="profesor" />
+      <mat-error *ngIf="cursoForm.get('profesor')?.hasError('required')">
+        El nombre del profesor es obligatorio
+      </mat-error>
     </mat-form-field>
 
+    <!-- Cantidad de Horas -->
+    <mat-form-field appearance="outline" class="w-100 mb-3">
+      <mat-label>Cantidad de Horas</mat-label>
+      <input matInput type="number" formControlName="horas" />
+      <mat-error *ngIf="cursoForm.get('horas')?.hasError('required')">
+        Las horas son obligatorias
+      </mat-error>
+      <mat-error *ngIf="cursoForm.get('horas')?.hasError('min')">
+        Debe ser al menos 1 hora
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Cantidad de Clases -->
+    <mat-form-field appearance="outline" class="w-100 mb-3">
+      <mat-label>Cantidad de Clases</mat-label>
+      <input matInput type="number" formControlName="clases" />
+      <mat-error *ngIf="cursoForm.get('clases')?.hasError('required')">
+        Las clases son obligatorias
+      </mat-error>
+      <mat-error *ngIf="cursoForm.get('clases')?.hasError('min')">
+        Debe tener al menos 1 clase
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Cupos -->
     <mat-form-field appearance="outline" class="w-100 mb-3">
       <mat-label>Cupos</mat-label>
       <input matInput type="number" formControlName="cupos" />
+      <mat-error *ngIf="cursoForm.get('cupos')?.hasError('required')">
+        El campo es obligatorio
+      </mat-error>
+      <mat-error *ngIf="cursoForm.get('cupos')?.hasError('min')">
+        Debe ingresar al menos 1 cupo
+      </mat-error>
     </mat-form-field>
 
+    <!-- Botones -->
     <div class="d-flex gap-2 mt-3">
       <button type="submit" class="btn btn-primary">Guardar Curso</button>
       <button type="button" class="btn btn-secondary" (click)="cancelar()">

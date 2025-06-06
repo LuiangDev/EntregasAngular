@@ -37,7 +37,9 @@ export class AbmCursosComponent {
     this.cursoForm = this.fb.group({
       nombre: ['', Validators.required],
       profesor: ['', Validators.required],
-      cupos: ['', [Validators.required, Validators.min(1)]],
+      horas: [1, [Validators.required, Validators.min(1)]],
+      clases: [1, [Validators.required, Validators.min(1)]],
+      cupos: [1, [Validators.required, Validators.min(1)]],
     });
 
     this.cursoService.cursoSeleccionado$.subscribe((data) => {

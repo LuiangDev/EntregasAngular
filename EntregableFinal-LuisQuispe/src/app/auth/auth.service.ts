@@ -65,4 +65,20 @@ export class AuthService {
   return localStorage.getItem('username');
 }
 
+getUserId(): number | null {
+  const usuarioStr = localStorage.getItem('usuario');
+  if (usuarioStr) {
+    try {
+      const usuario = JSON.parse(usuarioStr);
+      return usuario?.id ?? null;
+    } catch (error) {
+      console.warn('Error al parsear el usuario del localStorage', error);
+      return null;
+    }
+  }
+  return null;
+}
+
+
+
 }
