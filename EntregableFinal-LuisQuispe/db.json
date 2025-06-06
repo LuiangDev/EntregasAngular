@@ -13,10 +13,10 @@
       "email": "cinthia.garcia@gmail.com"
     },
     {
-      "id": "3",
       "nombre": "Nayeli",
       "apellido": "Flores",
-      "email": "nayeli@example.com"
+      "email": "nayeli@gmail.com",
+      "id": "3"
     }
   ],
   "cursos": [
@@ -37,12 +37,12 @@
       "cupos": 5
     },
     {
-      "id": "3",
       "nombre": "Inventor",
-      "profesor": "Lamin Torres",
+      "profesor": "Lamin Yamal",
       "horas": 1,
       "clases": 1,
-      "cupos": 10
+      "cupos": 10,
+      "id": "3"
     }
   ],
   "inscripciones": [
