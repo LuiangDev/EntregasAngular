@@ -42,8 +42,8 @@ export class AbmInscripcionesComponent implements OnInit {
     private readonly inscripcionService: InscripcionService,
     private readonly cursoService: CursoService,
     private readonly alumnosService: AlumnosService,
-    private readonly router: Router,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly router: Router
   ) {
     this.inscripcionForm = this.fb.group({
       alumno: ['', Validators.required],
@@ -96,12 +96,17 @@ export class AbmInscripcionesComponent implements OnInit {
     return inscripcionesCurso.length < curso.cupos;
   }
 
+private obtenerNombreUsuario(): string {
+  return this.authService.getUsername() ?? 'Anónimo';
+}
+
+
   onSubmit(): void {
     if (this.inscripcionForm.valid) {
-      const inscripcion = this.inscripcionForm.value;
-
-      const usuarioActual = this.authService.getUsuario();
-      inscripcion.idUsuario = usuarioActual?.id ?? 0;
+      const inscripcion = {
+        ...this.inscripcionForm.value,
+        usuario: this.obtenerNombreUsuario()
+      };
 
       if (this.inscripcionEditando) {
         this.inscripcionService

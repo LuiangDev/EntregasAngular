@@ -59,4 +59,10 @@ export class AuthService {
     const usuarioJSON = localStorage.getItem(this.USER_KEY);
     return usuarioJSON ? JSON.parse(usuarioJSON) : null;
   }
+
+//Retornamos el nombre de usuario
+  getUsername(): string | null {
+  return localStorage.getItem('username');
+}
+
 }
