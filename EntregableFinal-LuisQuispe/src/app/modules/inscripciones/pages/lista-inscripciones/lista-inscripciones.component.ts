@@ -3,8 +3,11 @@ import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+
 import { InscripcionService } from '../../services/inscripcion.service';
 import { AuthService } from '../../../../auth/auth.service';
+import { AlumnosService } from '../../../alumnos/services/alumnos.service';
+import { CursoService } from '../../../cursos/services/curso.service';
 
 @Component({
   selector: 'app-lista-inscripciones',
@@ -15,26 +18,35 @@ import { AuthService } from '../../../../auth/auth.service';
 })
 export class ListaInscripcionesComponent implements OnInit {
   inscripciones: any[] = [];
+  alumnos: any[] = [];
+  cursos: any[] = [];
+
   displayedColumns: string[] = ['alumno', 'curso', 'fecha', 'acciones'];
 
   constructor(
     private readonly inscripcionService: InscripcionService,
+    private readonly alumnosService: AlumnosService,
+    private readonly cursoService: CursoService,
     private readonly router: Router,
     private readonly authService: AuthService
   ) {}
 
-    esAdmin(): boolean {
-  return this.authService.getUserRole() === 'admin';
-}
-
   ngOnInit(): void {
-    this.cargarInscripciones();
+    this.alumnosService.obtenerAlumnos().subscribe((alumnos) => {
+      this.alumnos = alumnos;
+
+      this.cursoService.obtenerCursos().subscribe((cursos) => {
+        this.cursos = cursos;
+
+        this.inscripcionService.obtenerInscripciones().subscribe((data) => {
+          this.inscripciones = data;
+        });
+      });
+    });
   }
 
-  cargarInscripciones(): void {
-    this.inscripcionService.obtenerInscripciones().subscribe((data) => {
-      this.inscripciones = data;
-    });
+  esAdmin(): boolean {
+    return this.authService.getUserRole() === 'admin';
   }
 
   agregarInscripcion(): void {
@@ -67,9 +79,23 @@ export class ListaInscripcionesComponent implements OnInit {
             timer: 1500,
             showConfirmButton: false
           });
-          this.cargarInscripciones(); // Recargamos la lista
+          this.cargarInscripciones();
         });
       }
     });
+  }
+
+  private cargarInscripciones(): void {
+    this.inscripcionService.obtenerInscripciones().subscribe((data) => {
+      this.inscripciones = data;
+    });
+  }
+
+  getNombreAlumno(id: number | string): string {
+    return this.alumnos.find(al => al.id === id || al.nombre === id)?.nombre ?? 'Desconocido';
+  }
+
+  getNombreCurso(id: number | string): string {
+    return this.cursos.find(c => c.id === id || c.nombre === id)?.nombre ?? 'Desconocido';
   }
 }

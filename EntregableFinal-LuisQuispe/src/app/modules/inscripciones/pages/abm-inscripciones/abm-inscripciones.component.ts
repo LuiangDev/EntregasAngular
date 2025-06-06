@@ -14,6 +14,7 @@ import Swal from 'sweetalert2';
 import { InscripcionService } from '../../services/inscripcion.service';
 import { CursoService } from '../../../cursos/services/curso.service';
 import { AlumnosService } from '../../../alumnos/services/alumnos.service';
+import { AuthService } from '../../../../auth/auth.service';
 
 @Component({
   selector: 'app-abm-inscripciones',
@@ -41,7 +42,8 @@ export class AbmInscripcionesComponent implements OnInit {
     private readonly inscripcionService: InscripcionService,
     private readonly cursoService: CursoService,
     private readonly alumnosService: AlumnosService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly authService: AuthService
   ) {
     this.inscripcionForm = this.fb.group({
       alumno: ['', Validators.required],
@@ -98,26 +100,21 @@ export class AbmInscripcionesComponent implements OnInit {
     if (this.inscripcionForm.valid) {
       const inscripcion = this.inscripcionForm.value;
 
+      const usuarioActual = this.authService.getUsuario();
+      inscripcion.idUsuario = usuarioActual?.id ?? 0;
+
       if (this.inscripcionEditando) {
         this.inscripcionService
           .actualizarInscripcion(this.inscripcionEditando.id, inscripcion)
           .subscribe(() => {
-            Swal.fire(
-              'Actualizado',
-              'La inscripción fue modificada correctamente.',
-              'success'
-            );
+            Swal.fire('Actualizado', 'La inscripción fue modificada correctamente.', 'success');
             this.router.navigate(['/inscripciones']);
           });
       } else {
         this.inscripcionService
           .agregarInscripcion(inscripcion)
           .subscribe(() => {
-            Swal.fire(
-              'Agregado',
-              'La inscripción fue registrada correctamente.',
-              'success'
-            );
+            Swal.fire('Agregado', 'La inscripción fue registrada correctamente.', 'success');
             this.router.navigate(['/inscripciones']);
           });
       }
