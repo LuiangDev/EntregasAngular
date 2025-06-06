@@ -5,10 +5,7 @@
     <mat-form-field appearance="outline" class="w-100 mb-3">
       <mat-label>Alumno</mat-label>
       <mat-select formControlName="alumno">
-        <mat-option
-          *ngFor="let alumno of alumnos"
-          [value]="alumno.nombre + ' ' + alumno.apellido"
-        >
+        <mat-option *ngFor="let alumno of alumnos" [value]="alumno.id">
           {{ alumno.nombre }} {{ alumno.apellido }}
         </mat-option>
       </mat-select>
@@ -23,7 +20,7 @@
       </mat-select>
     </mat-form-field>
 
-    <!-- 🔻 Mensaje si ya no hay cursos disponibles -->
+    <!-- Mensaje si ya no hay cursos disponibles -->
     <small *ngIf="cursos.length === 0" class="text-danger">
       No hay cursos disponibles con cupos.
     </small>

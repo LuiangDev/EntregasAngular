@@ -96,30 +96,38 @@ export class AbmInscripcionesComponent implements OnInit {
     return inscripcionesCurso.length < curso.cupos;
   }
 
-private obtenerNombreUsuario(): string {
-  return this.authService.getUsername() ?? 'Anónimo';
-}
-
+  private obtenerNombreUsuario(): string {
+    return this.authService.getUsername() ?? 'Anónimo';
+  }
 
   onSubmit(): void {
     if (this.inscripcionForm.valid) {
       const inscripcion = {
         ...this.inscripcionForm.value,
-        usuario: this.obtenerNombreUsuario()
+        usuario: this.obtenerNombreUsuario(),
+        usuarioId: this.authService.getUserId() ?? 0,
       };
 
       if (this.inscripcionEditando) {
         this.inscripcionService
           .actualizarInscripcion(this.inscripcionEditando.id, inscripcion)
           .subscribe(() => {
-            Swal.fire('Actualizado', 'La inscripción fue modificada correctamente.', 'success');
+            Swal.fire(
+              'Actualizado',
+              'La inscripción fue modificada correctamente.',
+              'success'
+            );
             this.router.navigate(['/inscripciones']);
           });
       } else {
         this.inscripcionService
           .agregarInscripcion(inscripcion)
           .subscribe(() => {
-            Swal.fire('Agregado', 'La inscripción fue registrada correctamente.', 'success');
+            Swal.fire(
+              'Agregado',
+              'La inscripción fue registrada correctamente.',
+              'success'
+            );
             this.router.navigate(['/inscripciones']);
           });
       }

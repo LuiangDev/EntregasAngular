@@ -14,7 +14,7 @@ import { CursoService } from '../../../cursos/services/curso.service';
   standalone: true,
   imports: [CommonModule, MatTableModule],
   templateUrl: './lista-inscripciones.component.html',
-  styleUrls: ['./lista-inscripciones.component.scss']
+  styleUrls: ['./lista-inscripciones.component.scss'],
 })
 export class ListaInscripcionesComponent implements OnInit {
   inscripciones: any[] = [];
@@ -50,9 +50,9 @@ export class ListaInscripcionesComponent implements OnInit {
   }
 
   esPropia(inscripcion: any): boolean {
-  const currentUserId = this.authService.getUserId();
-  return inscripcion.usuarioId === currentUserId;
-}
+    const currentUserId = this.authService.getUserId();
+    return inscripcion.usuarioId === currentUserId;
+  }
 
   agregarInscripcion(): void {
     this.inscripcionService.limpiarInscripcionSeleccionada();
@@ -73,19 +73,21 @@ export class ListaInscripcionesComponent implements OnInit {
       confirmButtonColor: '#d33',
       cancelButtonColor: '#3085d6',
       confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'Cancelar'
+      cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.inscripcionService.eliminarInscripcion(inscripcion.id).subscribe(() => {
-          Swal.fire({
-            icon: 'success',
-            title: 'Inscripción eliminada',
-            text: 'La inscripción fue eliminada correctamente.',
-            timer: 1500,
-            showConfirmButton: false
+        this.inscripcionService
+          .eliminarInscripcion(inscripcion.id)
+          .subscribe(() => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Inscripción eliminada',
+              text: 'La inscripción fue eliminada correctamente.',
+              timer: 1500,
+              showConfirmButton: false,
+            });
+            this.cargarInscripciones();
           });
-          this.cargarInscripciones();
-        });
       }
     });
   }
@@ -97,11 +99,14 @@ export class ListaInscripcionesComponent implements OnInit {
   }
 
   getNombreAlumno(id: number | string): string {
-    return this.alumnos.find(al => al.id === id || al.nombre === id)?.nombre ?? 'Desconocido';
+    const alumno = this.alumnos.find((al) => al.id === id);
+    return alumno ? `${alumno.nombre} ${alumno.apellido}` : 'Desconocido';
   }
 
   getNombreCurso(id: number | string): string {
-    return this.cursos.find(c => c.id === id || c.nombre === id)?.nombre ?? 'Desconocido';
+    return (
+      this.cursos.find((c) => c.id === id || c.nombre === id)?.nombre ??
+      'Desconocido'
+    );
   }
-
 }
