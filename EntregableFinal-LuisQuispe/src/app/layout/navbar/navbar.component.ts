@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MatSidenavModule } from '@angular/material/sidenav';
+import { Component, OnInit, OnDestroy} from '@angular/core';
+import { MatSidenavModule} from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../auth/auth.service';
 import { Subscription } from 'rxjs';
 
@@ -15,12 +16,14 @@ import { Subscription } from 'rxjs';
     RouterModule,
     MatSidenavModule,
     MatListModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule
   ],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit, OnDestroy {
+
   isLoggedIn = false;
   role: string | null = null;
   usuarioNombre: string | null = null;
@@ -37,7 +40,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
       this.actualizarEstadoUsuario();
     });
 
-    this.actualizarEstadoUsuario(); 
+    this.actualizarEstadoUsuario();
   }
 
   ngOnDestroy(): void {
@@ -61,4 +64,5 @@ export class NavbarComponent implements OnInit, OnDestroy {
   navigateTo(route: string): void {
     this.router.navigate([route]);
   }
+
 }

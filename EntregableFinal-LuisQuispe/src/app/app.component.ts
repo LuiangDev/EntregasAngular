@@ -6,8 +6,8 @@ import { MatListModule } from '@angular/material/list';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { NavbarComponent } from './layout/navbar/navbar.component';
-import { ToolbarComponent } from './layout/toolbar/toolbar.component';
 import { AuthService } from './auth/auth.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +19,7 @@ import { AuthService } from './auth/auth.service';
     MatToolbarModule,
     MatListModule,
     NavbarComponent,
-    ToolbarComponent,
+    MatIconModule,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
@@ -33,18 +33,25 @@ export class AppComponent implements OnInit {
     private readonly authService: AuthService
   ) {}
 
-  ngOnInit(): void {
-    this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe((event: any) => {
-        const rutaActual = event.url;
-        this.mostrarLayout =
-          rutaActual !== '/login' && this.authService.isLoggedIn();
-      });
+  isLargeScreen = window.innerWidth > 768;
 
-    this.authService.authStatus$.subscribe((status) => {
-      const rutaActual = this.router.url;
-      this.mostrarLayout = rutaActual !== '/login' && status;
+ngOnInit(): void {
+  this.router.events
+    .pipe(filter((event) => event instanceof NavigationEnd))
+    .subscribe((event: any) => {
+      const rutaActual = event.url;
+      this.mostrarLayout =
+        rutaActual !== '/login' && this.authService.isLoggedIn();
     });
-  }
+
+  this.authService.authStatus$.subscribe((status) => {
+    const rutaActual = this.router.url;
+    this.mostrarLayout = rutaActual !== '/login' && status;
+  });
+
+  // Escuchar cambios de tamaño
+  window.addEventListener('resize', () => {
+    this.isLargeScreen = window.innerWidth > 768;
+  });
+}
 }

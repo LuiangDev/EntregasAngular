@@ -1,6 +1,8 @@
 <div class="container">
   <h2>Gestión de Usuarios</h2>
-  <a routerLink="/usuarios/crear" class="btn btn-primary mb-3"> + Crear nuevo usuario</a>
+  <a routerLink="/usuarios/crear" class="btn btn-primary mb-3">
+    + Crear nuevo usuario</a
+  >
 
   <table mat-table class="mat-elevation-z8 full-width">
     <thead>
@@ -21,8 +23,20 @@
         <td>{{ usuario.telefono }}</td>
         <td>{{ usuario.direccion }}</td>
         <td>
-          <button (click)="editarUsuario(usuario.id)" class="btn btn-sm btn-warning me-2">Editar</button>
-          <button (click)="eliminarUsuario(usuario.id)" class="btn btn-sm btn-danger">Eliminar</button>
+          <div class="responsive-button-group">
+            <button
+              (click)="editarUsuario(usuario.id)"
+              class="btn btn-sm btn-warning me-2"
+            >
+              Editar
+            </button>
+            <button
+              (click)="eliminarUsuario(usuario.id)"
+              class="btn btn-sm btn-danger"
+            >
+              Eliminar
+            </button>
+          </div>
         </td>
       </tr>
     </tbody>

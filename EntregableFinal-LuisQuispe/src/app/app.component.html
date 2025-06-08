@@ -1,16 +1,33 @@
-<mat-sidenav-container class="sidenav-container" *ngIf="mostrarLayout">
-  <mat-sidenav #drawer mode="side" opened class="sidenav">
+<mat-sidenav-container class="sidenav-container">
+  <!-- Sidebar -->
+  <mat-sidenav
+    #drawer
+    mode="side"
+    class="sidenav"
+    fixedInViewport
+    [opened]="isLargeScreen"
+  >
     <app-navbar></app-navbar>
   </mat-sidenav>
 
-  <mat-sidenav-content>
-    <app-toolbar></app-toolbar>
-    <div class="main-content">
+  <!-- Contenido principal -->
+  <mat-sidenav-content class="main-content">
+    <mat-toolbar color="primary" class="main-toolbar">
+      <button
+        type="button"
+        mat-icon-button
+        class="toggle-button"
+        aria-label="Abrir menú"
+        (click)="drawer.toggle()"
+        *ngIf="!isLargeScreen"
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>Gestión de Asistentes</span>
+    </mat-toolbar>
+
+    <div class="content">
       <router-outlet></router-outlet>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
-
-<div *ngIf="!mostrarLayout">
-  <router-outlet></router-outlet>
-</div>

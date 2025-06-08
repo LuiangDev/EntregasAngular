@@ -20,3 +20,19 @@ th, td {
   text-align: left;
   border-bottom: 1px solid #eee;
 }
+
+.responsive-button-group {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  button {
+    width: fit-content;
+  }
+}
