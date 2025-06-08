@@ -47,12 +47,12 @@
   ],
   "inscripciones": [
     {
-      "id": "1",
       "alumno": "2",
       "curso": "1",
-      "fecha": "2000-12-12",
+      "fecha": "2025-12-12",
       "usuario": "admin",
-      "usuarioId": "1"
+      "usuarioId": 1,
+      "id": "1"
     },
     {
       "id": "2",
@@ -61,6 +61,14 @@
       "fecha": "2025-12-12",
       "usuario": "admin",
       "usuarioId": "1"
+    },
+    {
+      "id": "6f7e",
+      "alumno": "1",
+      "curso": "Figma",
+      "fecha": "2025-11-11",
+      "usuario": "user",
+      "usuarioId": 2
     }
   ],
   "usuarios": [

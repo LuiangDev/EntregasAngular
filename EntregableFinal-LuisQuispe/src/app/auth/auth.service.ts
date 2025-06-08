@@ -23,12 +23,14 @@ export class AuthService {
       localStorage.setItem(this.TOKEN_KEY, 'fake-jwt-token');
       localStorage.setItem(this.ROLE_KEY, role);
 
-      const usuarioSimulado = {
-        id: 999,
-        nombre: username,
-        email: `${username}@correo.com`,
-        perfil: role,
-      };
+const usuarioSimulado = {
+  id: username === 'admin' ? 1 : 2,
+  username: username,
+  nombre: username,
+  email: `${username}@correo.com`,
+  perfil: role
+};
+
       localStorage.setItem(this.USER_KEY, JSON.stringify(usuarioSimulado));
 
       this.authStatusSource.next(true);
@@ -62,9 +64,16 @@ export class AuthService {
   }
 
   //Retornamos el nombre de usuario
-  getUsername(): string | null {
-    return localStorage.getItem('username');
+getUsername(): string | null {
+  const usuario = localStorage.getItem('usuario');
+  if (usuario) {
+    const parsed = JSON.parse(usuario);
+    return parsed?.username ?? null;
   }
+  return null;
+}
+
+
 
   getUserId(): number | null {
     const usuarioStr = localStorage.getItem('usuario');

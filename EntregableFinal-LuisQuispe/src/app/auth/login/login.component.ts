@@ -35,7 +35,6 @@ export class LoginComponent {
 onSubmit(): void {
   const { username, password, role } = this.loginForm.value;
 
-  // Validación
   const validCombination =
     (role === 'admin' && username === 'admin') ||
     (role === 'user' && username === 'user');
@@ -50,10 +49,16 @@ onSubmit(): void {
     return;
   }
 
-  // Validación
   const loginExitoso = this.authService.login(username, password, role);
 
   if (loginExitoso) {
+    const usuarioLogueado = {
+      id: role === 'admin' ? 1 : 2,
+      username,
+      role
+    };
+    localStorage.setItem('usuario', JSON.stringify(usuarioLogueado));
+
     this.router.navigate([role === 'admin' ? '/alumnos' : '/inscripciones']);
   } else {
     Swal.fire({
@@ -64,5 +69,6 @@ onSubmit(): void {
     });
   }
 }
+
 
 }
