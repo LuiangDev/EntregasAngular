@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { CursoService } from '../../services/curso.service';
+import { AuthService } from '../../../../auth/auth.service';
 
 @Component({
   selector: 'app-abm-cursos',
@@ -24,7 +25,7 @@ import { CursoService } from '../../services/curso.service';
   templateUrl: './abm-cursos.component.html',
   styleUrls: ['./abm-cursos.component.scss'],
 })
-export class AbmCursosComponent {
+export class AbmCursosComponent implements OnInit {
   cursoForm: FormGroup;
   cursoEditando: any = null;
   indiceEditando: number | null = null;
@@ -32,7 +33,8 @@ export class AbmCursosComponent {
   constructor(
     private readonly fb: FormBuilder,
     private readonly cursoService: CursoService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly authService: AuthService
   ) {
     this.cursoForm = this.fb.group({
       nombre: ['', Validators.required],
@@ -41,6 +43,13 @@ export class AbmCursosComponent {
       clases: [1, [Validators.required, Validators.min(1)]],
       cupos: [1, [Validators.required, Validators.min(1)]],
     });
+  }
+
+  ngOnInit(): void {
+    if (this.authService.getUserRole() !== 'admin') {
+      this.router.navigate(['/cursos']);
+      return;
+    }
 
     this.cursoService.cursoSeleccionado$.subscribe((data) => {
       if (data) {

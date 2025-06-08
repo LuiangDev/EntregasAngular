@@ -69,6 +69,14 @@
       "fecha": "2025-11-11",
       "usuario": "user",
       "usuarioId": 2
+    },
+    {
+      "id": "557a",
+      "alumno": "2",
+      "curso": "Figma",
+      "fecha": "2025-12-12",
+      "usuario": "Angel",
+      "usuarioId": "a3a8"
     }
   ],
   "usuarios": [

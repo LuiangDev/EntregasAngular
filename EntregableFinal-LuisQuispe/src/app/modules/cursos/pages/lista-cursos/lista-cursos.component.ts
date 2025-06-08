@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
-import { Router, NavigationEnd } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { CursoService } from '../../services/curso.service';
 import { AuthService } from '../../../../auth/auth.service';
@@ -14,24 +13,24 @@ import { AuthService } from '../../../../auth/auth.service';
   templateUrl: './lista-cursos.component.html',
   styleUrls: ['./lista-cursos.component.scss']
 })
-export class ListaCursosComponent {
+export class ListaCursosComponent implements OnInit {
   cursos: any[] = [];
   displayedColumns: string[] = ['nombre', 'profesor', 'cupos', 'acciones'];
+  role: string | null = null;
 
   constructor(
     private readonly cursoService: CursoService,
     private readonly router: Router,
     private readonly authService: AuthService
-  ) {
-    this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe(() => {
-        this.cargarCursos();
-      });
+  ) {}
+
+  ngOnInit(): void {
+    this.role = this.authService.getUserRole();
+    this.cargarCursos();
   }
 
   esAdmin(): boolean {
-    return this.authService.getUserRole() === 'admin';
+    return this.role === 'admin';
   }
 
   cargarCursos(): void {

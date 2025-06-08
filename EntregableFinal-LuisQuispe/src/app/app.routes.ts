@@ -11,14 +11,14 @@ export const routes: Routes = [
   {
     path: 'alumnos',
     canActivate: [AuthGuard, RoleGuard],
-    data: { roles: ['admin'] },
+    data: { roles: ['admin', 'user'] },
     loadChildren: () =>
       import('./modules/alumnos/alumnos.module').then((m) => m.AlumnosModule),
   },
   {
     path: 'cursos',
     canActivate: [AuthGuard, RoleGuard],
-    data: { roles: ['admin'] },
+    data: { roles: ['admin', 'user'] },
     loadChildren: () =>
       import('./modules/cursos/cursos.module').then((m) => m.CursosModule),
   },

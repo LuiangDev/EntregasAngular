@@ -18,7 +18,7 @@ import { AuthService } from '../../../../auth/auth.service';
 export class ListaAlumnosComponent implements OnInit {
   alumnos: any[] = [];
   displayedColumns: string[] = ['nombreCompleto', 'email', 'acciones'];
-
+  role: string | null = null;
 
   constructor(
     private readonly alumnosService: AlumnosService,
@@ -26,12 +26,13 @@ export class ListaAlumnosComponent implements OnInit {
     private readonly authService: AuthService
   ) {}
 
-    esAdmin(): boolean {
-  return this.authService.getUserRole() === 'admin';
-}
-
   ngOnInit(): void {
+    this.role = this.authService.getUserRole();
     this.cargarAlumnos();
+  }
+
+  esAdmin(): boolean {
+    return this.role === 'admin';
   }
 
   cargarAlumnos(): void {
@@ -70,10 +71,9 @@ export class ListaAlumnosComponent implements OnInit {
             timer: 1500,
             showConfirmButton: false
           });
-          this.cargarAlumnos(); // Recargamos el listado de alumnos
+          this.cargarAlumnos();
         });
       }
     });
   }
-
 }

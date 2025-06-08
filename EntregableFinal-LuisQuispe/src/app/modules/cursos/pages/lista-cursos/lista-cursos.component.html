@@ -1,11 +1,15 @@
 <div class="container mt-4">
   <h2>Lista de Cursos</h2>
 
-  <div class="d-flex justify-content-end mb-3">
-    <button *ngIf="esAdmin()" class="btn btn-primary" (click)="agregarCurso()">
+  <div class="d-flex justify-content-end mb-3" *ngIf="esAdmin()">
+    <button class="btn btn-primary" (click)="agregarCurso()">
       + Agregar Curso
     </button>
   </div>
+
+  <p *ngIf="!esAdmin()" class="text-muted mb-3">
+    Solo puedes visualizar los cursos. Para modificarlos, contacta con un administrador.
+  </p>
 
   <table mat-table [dataSource]="cursos" class="mat-elevation-z8">
     <!-- Nombre -->

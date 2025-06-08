@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   ReactiveFormsModule,
@@ -9,6 +9,7 @@ import {
 import { AlumnosService } from '../../services/alumnos.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../../auth/auth.service';
 
 @Component({
   selector: 'app-abm-alumnos',
@@ -17,7 +18,7 @@ import { Router } from '@angular/router';
   templateUrl: './abm-alumnos.component.html',
   styleUrls: ['./abm-alumnos.component.scss'],
 })
-export class AbmAlumnosComponent {
+export class AbmAlumnosComponent implements OnInit {
   alumnoForm: FormGroup;
   alumnoEditando: any = null;
   indiceEditando: number | null = null;
@@ -25,19 +26,26 @@ export class AbmAlumnosComponent {
   constructor(
     private readonly fb: FormBuilder,
     private readonly alumnosService: AlumnosService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly authService: AuthService
   ) {
     this.alumnoForm = this.fb.group({
       nombre: ['', [Validators.required]],
       apellido: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
     });
+  }
+
+  ngOnInit(): void {
+    if (this.authService.getUserRole() !== 'admin') {
+      this.router.navigate(['/alumnos']);
+      return;
+    }
 
     this.alumnosService.alumnoSeleccionado$.subscribe((data) => {
       if (data) {
         this.alumnoEditando = data.alumno;
         this.indiceEditando = data.id;
-
         this.alumnoForm.patchValue(data.alumno);
       }
     });
