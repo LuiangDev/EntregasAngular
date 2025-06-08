@@ -56,7 +56,7 @@ export class LoginComponent {
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: err.message || 'Error en la autenticación',
+          text: err.message ?? 'Error en la autenticación',
           confirmButtonText: 'Aceptar'
         });
       }

@@ -1,17 +1,16 @@
-<mat-sidenav-container class="sidenav-container">
-  <!-- Menú lateral -->
+<mat-sidenav-container class="sidenav-container" *ngIf="mostrarLayout">
   <mat-sidenav #drawer mode="side" opened class="sidenav">
     <app-navbar></app-navbar>
   </mat-sidenav>
 
-  <!-- Contenido principal -->
   <mat-sidenav-content>
-    <!-- Toolbar superior -->
     <app-toolbar></app-toolbar>
-
-    <!-- Vista dinámica -->
     <div class="main-content">
       <router-outlet></router-outlet>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
+
+<div *ngIf="!mostrarLayout">
+  <router-outlet></router-outlet>
+</div>
