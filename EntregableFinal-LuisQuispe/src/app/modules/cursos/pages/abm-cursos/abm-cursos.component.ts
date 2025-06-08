@@ -46,7 +46,6 @@ export class AbmCursosComponent {
       if (data) {
         this.cursoEditando = data.curso;
         this.indiceEditando = data.id;
-
         this.cursoForm.patchValue(data.curso);
       }
     });
@@ -57,38 +56,39 @@ export class AbmCursosComponent {
       const curso = this.cursoForm.value;
 
       if (this.indiceEditando !== null) {
-        this.cursoService
-          .actualizarCurso(this.indiceEditando, curso)
-          .subscribe(() => {
-            Swal.fire(
-              'Actualizado',
-              'El curso fue modificado correctamente.',
-              'success'
-            ).then(() => {
-              this.router.navigate(['/cursos']);
-            });
+        this.cursoService.actualizarCurso(this.indiceEditando, curso).subscribe(() => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Actualizado',
+            text: 'El curso fue modificado correctamente.'
+          }).then(() => {
+            this.finalizarFormulario();
           });
+        });
       } else {
         this.cursoService.agregarCurso(curso).subscribe(() => {
-          Swal.fire(
-            'Agregado',
-            'El curso fue registrado correctamente.',
-            'success'
-          ).then(() => {
-            this.router.navigate(['/cursos']);
+          Swal.fire({
+            icon: 'success',
+            title: 'Agregado',
+            text: 'El curso fue registrado correctamente.'
+          }).then(() => {
+            this.finalizarFormulario();
           });
         });
       }
-
-      this.cursoForm.reset();
-      this.cursoService.limpiarCursoSeleccionado();
-      this.indiceEditando = null;
     } else {
       this.cursoForm.markAllAsTouched();
     }
   }
 
-  cancelar() {
+  finalizarFormulario(): void {
+    this.cursoForm.reset();
+    this.cursoService.limpiarCursoSeleccionado();
+    this.indiceEditando = null;
+    this.router.navigate(['/cursos']);
+  }
+
+  cancelar(): void {
     this.router.navigate(['/cursos']);
   }
 }

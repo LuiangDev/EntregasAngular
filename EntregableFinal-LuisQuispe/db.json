@@ -14,8 +14,8 @@
     },
     {
       "nombre": "Nayeli",
-      "apellido": "Flores",
-      "email": "nayeli@gmail.com",
+      "apellido": "Alvarado",
+      "email": "nayeli@outlook.com",
       "id": "3"
     }
   ],
@@ -41,7 +41,7 @@
       "profesor": "Lamin Yamal",
       "horas": 1,
       "clases": 1,
-      "cupos": 10,
+      "cupos": 2,
       "id": "3"
     }
   ],
