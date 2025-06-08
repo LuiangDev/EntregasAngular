@@ -19,6 +19,7 @@ import Swal from 'sweetalert2';
 })
 export class LoginComponent {
   loginForm: FormGroup;
+  loading = false;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -26,49 +27,42 @@ export class LoginComponent {
     private readonly router: Router
   ) {
     this.loginForm = this.fb.group({
-      username: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
-      role: ['', Validators.required],
     });
   }
 
-onSubmit(): void {
-  const { username, password, role } = this.loginForm.value;
+  onSubmit(): void {
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      return;
+    }
 
-  const validCombination =
-    (role === 'admin' && username === 'admin') ||
-    (role === 'user' && username === 'user');
+    this.loading = true;
+    const { email, password } = this.loginForm.value;
 
-  if (!validCombination) {
-    Swal.fire({
-      icon: 'warning',
-      title: 'Rol inválido',
-      text: 'El usuario ingresado no corresponde al rol seleccionado.',
-      confirmButtonText: 'Aceptar'
-    });
-    return;
-  }
+    this.authService.login(email, password).subscribe({
+      next: (usuario) => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Bienvenido',
+          text: `Hola, ${usuario.nombre}`,
+          timer: 1500,
+          showConfirmButton: false
+        });
 
-  const loginExitoso = this.authService.login(username, password, role);
-
-  if (loginExitoso) {
-    const usuarioLogueado = {
-      id: role === 'admin' ? 1 : 2,
-      username,
-      role
-    };
-    localStorage.setItem('usuario', JSON.stringify(usuarioLogueado));
-
-    this.router.navigate([role === 'admin' ? '/alumnos' : '/inscripciones']);
-  } else {
-    Swal.fire({
-      icon: 'error',
-      title: 'Error',
-      text: 'Usuario o contraseña incorrectos.',
-      confirmButtonText: 'Aceptar'
+        const ruta =
+          usuario.perfil === 'admin' ? '/alumnos' : '/inscripciones';
+        this.router.navigate([ruta]);
+      },
+      error: () => {
+        this.loading = false;
+        Swal.fire({
+          icon: 'error',
+          title: 'Error de acceso',
+          text: 'Email o contraseña incorrectos',
+        });
+      },
     });
   }
-}
-
-
 }

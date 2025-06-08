@@ -29,15 +29,20 @@ export class ListaUsuariosComponent implements OnInit {
     });
   }
 
-  eliminarUsuario(id: number): void {
-    if (confirm('¿Estás seguro de eliminar este usuario?')) {
-      this.usuariosService.deleteUsuario(id).subscribe(() => {
-        this.usuarios = this.usuarios.filter(u => u.id !== id);
-      });
-    }
-  }
+eliminarUsuario(id: string | undefined): void {
+  if (!id) return;
 
-  editarUsuario(id: number): void {
+  if (confirm('¿Estás seguro de eliminar este usuario?')) {
+    this.usuariosService.deleteUsuario(id).subscribe(() => {
+      this.usuarios = this.usuarios.filter(u => u.id !== id);
+    });
+  }
+}
+
+editarUsuario(id: string | undefined): void {
+  if (id) {
     this.router.navigate(['/usuarios/editar', id]);
   }
+}
+
 }

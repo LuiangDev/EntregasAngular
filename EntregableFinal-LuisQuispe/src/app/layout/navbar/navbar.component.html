@@ -1,7 +1,7 @@
 <mat-nav-list class="navbar-container">
   <!-- Info del usuario -->
   <div class="user-info" *ngIf="isLoggedIn">
-    <span class="user-name">{{ getUserName() }}</span>
+    <span class="user-name">{{ usuarioNombre ?? 'Invitado' }}</span>
   </div>
 
   <a
@@ -31,7 +31,6 @@
     Inscripciones
   </a>
 
-  <!-- Usuarios: visible solo para Admin -->
   <a
     *ngIf="isLoggedIn && role === 'admin'"
     mat-list-item
@@ -41,7 +40,6 @@
     Usuarios
   </a>
 
-  <!-- Botón de cerrar sesión -->
   <div class="logout-section" *ngIf="isLoggedIn">
     <button mat-raised-button color="warn" (click)="logout()">
       Cerrar sesión

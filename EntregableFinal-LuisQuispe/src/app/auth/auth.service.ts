@@ -1,91 +1,64 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
+import { Usuario } from '../shared/models/usuario.model';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly TOKEN_KEY = 'auth_token';
-  private readonly ROLE_KEY = 'user_role';
   private readonly USER_KEY = 'usuario';
+  private readonly apiUrl = 'http://localhost:3000/usuarios';
 
-  // Notificamos cambios de autenticación
-  private readonly authStatusSource = new BehaviorSubject<boolean>(
-    this.isLoggedIn()
-  );
-  authStatus$ = this.authStatusSource.asObservable();
+  private readonly authStatusSubject = new BehaviorSubject<boolean>(this.isLoggedIn());
+  public authStatus$ = this.authStatusSubject.asObservable(); // ✅ <-- ESTA ES LA QUE USAS EN NAVBAR
 
-  constructor() {}
+  constructor(private readonly http: HttpClient) {}
 
-  //Simulamos login y guardamos token, rol y usuario en localStorage
-  login(username: string, password: string, role: string): boolean {
-    if (password === '12345') {
-      localStorage.setItem(this.TOKEN_KEY, 'fake-jwt-token');
-      localStorage.setItem(this.ROLE_KEY, role);
+  login(email: string, password: string): Observable<Usuario> {
+    return this.http.get<Usuario[]>(`${this.apiUrl}?email=${email}`).pipe(
+      map((usuarios) => {
+        const usuario = usuarios[0];
+        if (!usuario) throw new Error('Usuario no encontrado');
+        if (usuario.password !== password) throw new Error('Contraseña incorrecta');
 
-const usuarioSimulado = {
-  id: username === 'admin' ? 1 : 2,
-  username: username,
-  nombre: username,
-  email: `${username}@correo.com`,
-  perfil: role
-};
-
-      localStorage.setItem(this.USER_KEY, JSON.stringify(usuarioSimulado));
-
-      this.authStatusSource.next(true);
-      return true;
-    }
-    return false;
+        localStorage.setItem(this.USER_KEY, JSON.stringify(usuario));
+        this.authStatusSubject.next(true); // ✅ Emitimos cambio
+        return usuario;
+      }),
+      catchError((err) => throwError(() => err))
+    );
   }
 
-  //Cerramos sesión y eliminamos token, rol y usuario del localStorage
   logout(): void {
-    localStorage.removeItem(this.TOKEN_KEY);
-    localStorage.removeItem(this.ROLE_KEY);
     localStorage.removeItem(this.USER_KEY);
-    this.authStatusSource.next(false);
+    this.authStatusSubject.next(false); // ✅ Emitimos cambio
   }
 
-  //Validamos si el usuario está logueado
   isLoggedIn(): boolean {
-    return !!localStorage.getItem(this.TOKEN_KEY);
+    return !!localStorage.getItem(this.USER_KEY);
   }
 
-  //Retornamos el token de autenticación
+  getUsuario(): Usuario | null {
+    const data = localStorage.getItem(this.USER_KEY);
+    return data ? JSON.parse(data) : null;
+  }
+
   getUserRole(): string | null {
-    return localStorage.getItem(this.ROLE_KEY);
+    return this.getUsuario()?.perfil ?? null;
   }
 
-  //Retornamos el usuario logueado
-  getUsuario() {
-    const usuarioJSON = localStorage.getItem(this.USER_KEY);
-    return usuarioJSON ? JSON.parse(usuarioJSON) : null;
+  getUserId(): string | null {
+    return this.getUsuario()?.id ?? null;
   }
 
-  //Retornamos el nombre de usuario
-getUsername(): string | null {
-  const usuario = localStorage.getItem('usuario');
-  if (usuario) {
-    const parsed = JSON.parse(usuario);
-    return parsed?.username ?? null;
+  getUsername(): string | null {
+    return this.getUsuario()?.nombre ?? null;
   }
-  return null;
-}
 
-
-
-  getUserId(): number | null {
-    const usuarioStr = localStorage.getItem('usuario');
-    if (usuarioStr) {
-      try {
-        const usuario = JSON.parse(usuarioStr);
-        return usuario?.id ?? null;
-      } catch (error) {
-        console.warn('Error al parsear el usuario del localStorage', error);
-        return null;
-      }
-    }
-    return null;
+  getEmail(): string | null {
+    return this.getUsuario()?.email ?? null;
   }
 }
