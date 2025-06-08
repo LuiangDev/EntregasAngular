@@ -7,22 +7,23 @@
     fixedInViewport
     [opened]="isLargeScreen"
   >
-    <app-navbar [sidenav]="drawer"></app-navbar> 
+    <app-navbar [sidenav]="drawer"></app-navbar>
   </mat-sidenav>
 
   <!-- Contenido principal -->
   <mat-sidenav-content class="main-content">
     <mat-toolbar color="primary" class="main-toolbar">
       <button
+        *ngIf="!isLargeScreen && isLoggedIn"
         type="button"
         mat-icon-button
         class="toggle-button"
         aria-label="Abrir menú"
         (click)="drawer.toggle()"
-        *ngIf="!isLargeScreen"
       >
         <mat-icon>menu</mat-icon>
       </button>
+
       <span>Gestión de Asistentes</span>
     </mat-toolbar>
 

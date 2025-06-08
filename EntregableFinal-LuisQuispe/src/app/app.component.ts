@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSidenavModule, MatSidenav } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
@@ -27,31 +27,42 @@ import { MatIconModule } from '@angular/material/icon';
 export class AppComponent implements OnInit {
   title = 'PFQuispe';
   mostrarLayout = true;
+  isLargeScreen = window.innerWidth > 768;
+  isLoggedIn = false;
+  @ViewChild('drawer') drawer!: MatSidenav;
 
   constructor(
     private readonly router: Router,
     private readonly authService: AuthService
   ) {}
 
-  isLargeScreen = window.innerWidth > 768;
+  ngOnInit(): void {
+    this.actualizarLayout();
 
-ngOnInit(): void {
-  this.router.events
-    .pipe(filter((event) => event instanceof NavigationEnd))
-    .subscribe((event: any) => {
-      const rutaActual = event.url;
-      this.mostrarLayout =
-        rutaActual !== '/login' && this.authService.isLoggedIn();
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.actualizarLayout();
+      });
+
+    this.authService.authStatus$.subscribe(() => {
+      this.actualizarLayout();
     });
+  }
 
-  this.authService.authStatus$.subscribe((status) => {
-    const rutaActual = this.router.url;
-    this.mostrarLayout = rutaActual !== '/login' && status;
-  });
-
-  // Escuchar cambios de tamaño
-  window.addEventListener('resize', () => {
+  @HostListener('window:resize', [])
+  onResize(): void {
     this.isLargeScreen = window.innerWidth > 768;
-  });
-}
+  }
+
+  private actualizarLayout(): void {
+    this.isLoggedIn = this.authService.isLoggedIn();
+    const rutaActual = this.router.url;
+    this.mostrarLayout = rutaActual !== '/login' && this.isLoggedIn;
+    this.isLargeScreen = window.innerWidth > 768;
+
+    if (!this.isLoggedIn && this.drawer?.opened) {
+      this.drawer.close();
+    }
+  }
 }
