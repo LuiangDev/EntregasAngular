@@ -13,7 +13,7 @@ export class AuthService {
   private readonly apiUrl = 'http://localhost:3000/usuarios';
 
   private readonly authStatusSubject = new BehaviorSubject<boolean>(this.isLoggedIn());
-  public authStatus$ = this.authStatusSubject.asObservable(); // ✅ <-- ESTA ES LA QUE USAS EN NAVBAR
+  public authStatus$ = this.authStatusSubject.asObservable();
 
   constructor(private readonly http: HttpClient) {}
 
@@ -25,7 +25,7 @@ export class AuthService {
         if (usuario.password !== password) throw new Error('Contraseña incorrecta');
 
         localStorage.setItem(this.USER_KEY, JSON.stringify(usuario));
-        this.authStatusSubject.next(true); // ✅ Emitimos cambio
+        this.authStatusSubject.next(true);
         return usuario;
       }),
       catchError((err) => throwError(() => err))
@@ -34,7 +34,7 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem(this.USER_KEY);
-    this.authStatusSubject.next(false); // ✅ Emitimos cambio
+    this.authStatusSubject.next(false);
   }
 
   isLoggedIn(): boolean {

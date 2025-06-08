@@ -82,22 +82,22 @@
       "direccion": "Av. Lima 123"
     },
     {
-      "id": "2",
       "nombre": "Usuario Demo",
       "email": "user@example.com",
       "password": "12345",
-      "perfil": "user",
+      "direccion": "Calle Demo 456",
       "telefono": "955888999",
-      "direccion": "Calle Demo 456"
+      "perfil": "usuario",
+      "id": "2"
     },
     {
-      "id": "a3a8",
       "nombre": "Angel",
       "email": "angel@example.com",
       "password": "123456",
       "direccion": "av3",
       "telefono": "923454545",
-      "perfil": "usuario"
+      "perfil": "usuario",
+      "id": "a3a8"
     },
     {
       "id": "6fd1",

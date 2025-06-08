@@ -4,7 +4,7 @@ import {
   FormBuilder,
   FormGroup,
   Validators,
-  ReactiveFormsModule,
+  ReactiveFormsModule
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
@@ -15,11 +15,10 @@ import Swal from 'sweetalert2';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
   loginForm: FormGroup;
-  loading = false;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -29,40 +28,38 @@ export class LoginComponent {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
+      role: ['', Validators.required]
     });
   }
 
   onSubmit(): void {
-    if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched();
-      return;
-    }
+    if (this.loginForm.invalid) return;
 
-    this.loading = true;
-    const { email, password } = this.loginForm.value;
+    const { email, password, role } = this.loginForm.value;
 
     this.authService.login(email, password).subscribe({
       next: (usuario) => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Bienvenido',
-          text: `Hola, ${usuario.nombre}`,
-          timer: 1500,
-          showConfirmButton: false
-        });
 
-        const ruta =
-          usuario.perfil === 'admin' ? '/alumnos' : '/inscripciones';
-        this.router.navigate([ruta]);
+        if (usuario.perfil !== role) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Rol incorrecto',
+            text: `Este usuario no pertenece al rol seleccionado.`,
+            confirmButtonText: 'Aceptar'
+          });
+          return;
+        }
+
+        this.router.navigate([role === 'admin' ? '/alumnos' : '/inscripciones']);
       },
-      error: () => {
-        this.loading = false;
+      error: (err) => {
         Swal.fire({
           icon: 'error',
-          title: 'Error de acceso',
-          text: 'Email o contraseña incorrectos',
+          title: 'Error',
+          text: err.message || 'Error en la autenticación',
+          confirmButtonText: 'Aceptar'
         });
-      },
+      }
     });
   }
 }

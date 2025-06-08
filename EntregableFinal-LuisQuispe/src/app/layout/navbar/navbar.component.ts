@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../../auth/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -19,10 +20,12 @@ import { AuthService } from '../../auth/auth.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
   isLoggedIn = false;
   role: string | null = null;
   usuarioNombre: string | null = null;
+
+  private authSubscription!: Subscription;
 
   constructor(
     private readonly router: Router,
@@ -30,14 +33,24 @@ export class NavbarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.actualizarEstadoUsuario();
+    this.authSubscription = this.authService.authStatus$.subscribe(() => {
+      this.actualizarEstadoUsuario();
+    });
+
+    this.actualizarEstadoUsuario(); 
   }
 
+  ngOnDestroy(): void {
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
+    }
+  }
 
   actualizarEstadoUsuario(): void {
-    this.isLoggedIn = this.authService.isLoggedIn();
-    this.role = this.authService.getUserRole();
-    this.usuarioNombre = this.authService.getUsername();
+    const usuario = this.authService.getUsuario();
+    this.isLoggedIn = !!usuario;
+    this.role = usuario?.perfil ?? null;
+    this.usuarioNombre = usuario?.nombre ?? null;
   }
 
   logout(): void {
