@@ -1,7 +1,6 @@
 # Gestión de Asistentes
 
 Aplicación web desarrollada con **Angular**, **Angular Material**, **Bootstrap** y **SweetAlert2** para la gestión integral de alumnos, cursos, usuarios e inscripciones.  
-Proyecto Final del curso de **Desarrollador Frontend con Angular** de **Coderhouse**.
 
 ---
 
@@ -31,9 +30,9 @@ Proyecto Final del curso de **Desarrollador Frontend con Angular** de **Coderhou
 ## 🔐 Inicio de sesión y validación de acceso
 
 ### 💼 Formulario de Login:
+- Tipo de Rol (`Administrador` o `Usuario`)
 - Correo electrónico
 - Contraseña
-- Tipo de Rol (`admin` o `usuario`)
 
 ### 🛡️ Validaciones implementadas:
 - Se verifica que el correo exista en el backend
@@ -42,7 +41,7 @@ Proyecto Final del curso de **Desarrollador Frontend con Angular** de **Coderhou
 
 ### 🚪 Redirecciones por perfil:
 - `admin` → redirige a `/alumnos`
-- `usuario` → redirige a `/inscripciones`
+- `user` → redirige a `/inscripciones`
 
 ---
 
@@ -50,7 +49,7 @@ Proyecto Final del curso de **Desarrollador Frontend con Angular** de **Coderhou
 
 | Rol     | Acceso a                     | Restricciones                          |
 |---------|------------------------------|----------------------------------------|
-| Admin   | Alumnos, Cursos, Usuarios, Inscripciones | Acceso total                          |
+| Administrador   | Alumnos, Cursos, Usuarios, Inscripciones | Acceso total                          |
 | Usuario | Alumnos, Cursos, Inscripciones | No puede ver ni modificar usuarios     |
 
 ---
@@ -64,7 +63,7 @@ Puedes usar los siguientes usuarios ya creados en `db.json`:
 | Luis Angel     | admin@example.com   | 12345      | admin    |
 | Angel          | angel@example.com   | 123456     | user     |
 
-✅ O bien, crea nuevos usuarios desde la vista de "Gestión de Usuarios".
+✅ O bien, crea nuevos usuarios desde la vista de "Gestión de Usuarios" a través del usuario `Admin`.
 
 ---
 
