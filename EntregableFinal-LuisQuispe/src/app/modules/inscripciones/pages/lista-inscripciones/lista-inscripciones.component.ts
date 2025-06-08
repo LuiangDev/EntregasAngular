@@ -21,7 +21,7 @@ export class ListaInscripcionesComponent implements OnInit {
   alumnos: any[] = [];
   cursos: any[] = [];
 
-  displayedColumns: string[] = ['alumno', 'curso', 'fecha', 'acciones'];
+  displayedColumns: string[] = ['alumno', 'curso', 'fecha', 'usuario', 'acciones'];
 
   constructor(
     private readonly inscripcionService: InscripcionService,
