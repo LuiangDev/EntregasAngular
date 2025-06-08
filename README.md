@@ -1,45 +1,70 @@
 # Gestión de Asistentes
 
-Aplicación desarrollada con **Angular CLI**, **Angular Material**, **Bootstrap** y **SweetAlert2**, que permite gestionar alumnos, cursos e inscripciones en un entorno modular, interactivo y profesional.  
-Proyecto correspondiente al **Proyecto Final** del Curso de Desarrollador Frontend con Angular de Coderhouse.
+Aplicación web desarrollada con **Angular**, **Angular Material**, **Bootstrap** y **SweetAlert2** para la gestión integral de alumnos, cursos, usuarios e inscripciones.  
+Proyecto Final del curso de **Desarrollador Frontend con Angular** de **Coderhouse**.
 
 ---
 
 ## 🎯 Funcionalidades principales
 
-- **Navbar** (menú lateral) y **Toolbar** (barra superior) para navegación estructurada.
-- **Gestión modular con Lazy Loading** para Alumnos, Cursos e Inscripciones.
-- **ABM completo** para:
-  - Alumnos: nombre, apellido y email.
-  - Cursos: nombre, profesor, cupos.
-  - Inscripciones: selección dinámica de alumno, curso y fecha.
-- **Validación de cupos**: no permite inscribir alumnos si el curso ya no tiene vacantes.
-- **Edición inmediata** de registros con formularios reactivos prellenados.
-- **Eliminación con confirmación visual** usando SweetAlert2.
-- **Sincronización entre módulos**:  
-  - Cursos y alumnos se cargan dinámicamente en el formulario de inscripción.
-- **Autenticación básica**:  
-  - Login con rol (admin/user).  
-  - Navegación condicional según rol autenticado.
-- **Validación de roles en login**:  
-  - Muestra alerta visual si el usuario ingresado no corresponde al rol seleccionado.
-- **Pipe personalizado**: muestra el nombre completo del alumno (Nombre + Apellido).
-- **Directiva personalizada**: aplica un estilo de fuente de 20px a los encabezados.
-- **Botones de Cancelar**: permiten volver al listado sin modificar datos.
-- **Estilo moderno y responsivo**: combinación de Angular Material y Bootstrap.
+- **Autenticación real con validación contra backend (`json-server`)**
+- **Inicio de sesión con correo, contraseña y selección de rol**
+- **Validación del perfil del usuario**: solo puede acceder al sistema con el rol que le corresponde
+- **Navbar lateral persistente** con el nombre del usuario logueado y navegación contextual
+- **Gestión CRUD completa**:
+  - **Alumnos**: nombre, apellido, email
+  - **Cursos**: nombre, profesor, clases, horas y cupos
+  - **Usuarios**: email, contraseña, nombre, dirección, teléfono, rol
+  - **Inscripciones**: registro de alumno a curso con fecha, validando cupos y registrando al autor
+- **Botones de cancelar** en formularios para no generar cambios accidentales
+- **SweetAlert2** para feedback visual de éxito, error y confirmación
+- **Visualización condicional por rol**:
+  - Admin puede ver y gestionar todo
+  - Usuario común solo puede listar cursos, alumnos y gestionar sus propias inscripciones
+- **Roles protegidos mediante `AuthGuard` y `RoleGuard`**
+- **Datos almacenados y recuperados desde `json-server`** (simulación de backend REST)
+- **Estilo moderno y responsivo** con Angular Material y Bootstrap
+- **Formulario de login totalmente adaptado con select de rol y validación contextual**
+
+---
+
+## 🔐 Inicio de sesión y validación de acceso
+
+### 💼 Formulario de Login:
+- Correo electrónico
+- Contraseña
+- Tipo de Rol (`admin` o `usuario`)
+
+### 🛡️ Validaciones implementadas:
+- Se verifica que el correo exista en el backend
+- Se compara la contraseña ingresada con la real
+- Se valida que el tipo de rol seleccionado coincida con el del usuario
+
+### 🚪 Redirecciones por perfil:
+- `admin` → redirige a `/alumnos`
+- `usuario` → redirige a `/inscripciones`
+
+---
+
+## 👥 Roles disponibles
+
+| Rol     | Acceso a                     | Restricciones                          |
+|---------|------------------------------|----------------------------------------|
+| Admin   | Alumnos, Cursos, Usuarios, Inscripciones | Acceso total                          |
+| Usuario | Alumnos, Cursos, Inscripciones | No puede ver ni modificar usuarios     |
 
 ---
 
 ## 🧪 Credenciales de prueba
 
-Para acceder a la aplicación y navegar como **admin** o **usuario**, puedes usar las siguientes credenciales de prueba:
+Puedes usar los siguientes usuarios ya creados en `db.json`:
 
-| Rol   | Usuario | Contraseña |
-|-------|---------|------------|
-| Admin | admin   | 12345      |
-| User  | user    | 12345      |
+| Nombre         | Email               | Contraseña | Perfil   |
+|----------------|---------------------|------------|----------|
+| Luis Angel     | admin@example.com   | 12345      | admin    |
+| Angel          | angel@example.com   | 123456     | user     |
 
-✅ Puedes usar cualquiera de estas cuentas para evaluar las funcionalidades y la navegación condicional.
+✅ O bien, crea nuevos usuarios desde la vista de "Gestión de Usuarios".
 
 ---
 
@@ -47,6 +72,13 @@ Para acceder a la aplicación y navegar como **admin** o **usuario**, puedes usa
 
 Este proyecto utiliza un servidor simulado con **json-server** para manejar la persistencia de datos (alumnos, cursos, inscripciones).  
 Es importante que levantes este servidor antes de ejecutar la aplicación en local, para que todas las funcionalidades estén disponibles.
+
+### ✅ ¿Qué gestiona?
+
+- Usuarios (`/usuarios`)
+- Alumnos (`/alumnos`)
+- Cursos (`/cursos`)
+- Inscripciones (`/inscripciones`)
 
 ### Pasos para levantar el servidor de API:
 
@@ -61,6 +93,17 @@ json-server --watch db.json --port 3000
 ✅ Por defecto, el servidor estará disponible en: http://localhost:3000/
 
 💡 Recuerda: Si no levantas json-server, la aplicación no podrá cargar datos y las funciones estarán inactivas.
+---
+
+## 📌 Estructura modular y técnicas aplicadas
+
+- Lazy Loading por módulo (Alumnos, Cursos, Usuarios, Inscripciones)
+- Formularios reactivos (FormGroup, Validators)
+- Servicios centralizados por entidad
+- Observables con BehaviorSubject para manejar estado de autenticación
+- Guards personalizados (AuthGuard, RoleGuard)
+- Custom Pipes y Directivas para formato y estilo
+
 ---
 
 ## ✅ Cobertura de testing
@@ -105,7 +148,7 @@ ng test
 ```
 #
 **Luis Angel Quispe Navarro**  
-Desarrollador Front-End | Ingeniero de Sistemas Computacionales | Diseñador UI 
+Desarrollador Front-End | Ingeniero de Sistemas Computacionales | Diseñador UI  
 ✉️ angel.quispe.navarro@outlook.com  
 [![GitHub](https://img.shields.io/badge/GitHub-LuiangDev-181717?style=for-the-badge&logo=github)](https://github.com/LuiangDev)  
 📌 Lima, Perú
