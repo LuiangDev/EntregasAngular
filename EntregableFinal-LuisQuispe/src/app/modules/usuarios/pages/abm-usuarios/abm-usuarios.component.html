@@ -35,8 +35,11 @@
       </select>
     </div>
 
-    <button type="submit" class="btn btn-success mt-3">
-      {{ modoEdicion ? 'Actualizar' : 'Guardar' }}
-    </button>
+    <div class="mt-3 d-flex gap-2">
+      <button type="submit" class="btn btn-success">
+        {{ modoEdicion ? 'Actualizar' : 'Guardar' }}
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
+    </div>
   </form>
 </div>

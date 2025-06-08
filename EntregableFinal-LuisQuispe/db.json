@@ -98,6 +98,15 @@
       "direccion": "av3",
       "telefono": "923454545",
       "perfil": "usuario"
+    },
+    {
+      "id": "6fd1",
+      "nombre": "Daniel",
+      "email": "daniel@example.com",
+      "password": "1234",
+      "direccion": "Av daniel 123",
+      "telefono": "933445565",
+      "perfil": "usuario"
     }
   ]
 }
