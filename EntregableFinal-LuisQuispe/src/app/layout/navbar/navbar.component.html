@@ -1,6 +1,4 @@
-
 <mat-nav-list class="navbar-container">
-  <!-- Info del usuario -->
   <div class="user-info" *ngIf="isLoggedIn">
     <span class="user-name">{{ usuarioNombre ?? 'Invitado' }}</span>
   </div>
@@ -8,8 +6,8 @@
   <a
     *ngIf="isLoggedIn"
     mat-list-item
-    routerLink="/alumnos"
     routerLinkActive="active"
+    (click)="navegarYcerrar('/alumnos')"
   >
     Alumnos
   </a>
@@ -17,8 +15,8 @@
   <a
     *ngIf="isLoggedIn"
     mat-list-item
-    routerLink="/cursos"
     routerLinkActive="active"
+    (click)="navegarYcerrar('/cursos')"
   >
     Cursos
   </a>
@@ -26,8 +24,8 @@
   <a
     *ngIf="isLoggedIn"
     mat-list-item
-    routerLink="/inscripciones"
     routerLinkActive="active"
+    (click)="navegarYcerrar('/inscripciones')"
   >
     Inscripciones
   </a>
@@ -35,8 +33,8 @@
   <a
     *ngIf="isLoggedIn && role === 'admin'"
     mat-list-item
-    routerLink="/usuarios"
     routerLinkActive="active"
+    (click)="navegarYcerrar('/usuarios')"
   >
     Usuarios
   </a>

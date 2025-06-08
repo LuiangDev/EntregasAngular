@@ -1,12 +1,12 @@
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
+import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
+import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Router } from '@angular/router';
-import { Component, OnInit, OnDestroy} from '@angular/core';
-import { MatSidenavModule} from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../auth/auth.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -23,6 +23,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit, OnDestroy {
+  @Input() sidenav!: MatSidenav;
 
   isLoggedIn = false;
   role: string | null = null;
@@ -61,8 +62,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.router.navigate(['/login']);
   }
 
-  navigateTo(route: string): void {
-    this.router.navigate([route]);
+  navegarYcerrar(ruta: string): void {
+    this.router.navigate([ruta]);
+    if (window.innerWidth <= 768 && this.sidenav?.opened) {
+      this.sidenav.close();
+    }
   }
-
 }
